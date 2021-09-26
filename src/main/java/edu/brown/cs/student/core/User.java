@@ -20,4 +20,8 @@ public class User {
     this.body_type = body_type;
     this.horoscope = horoscope;
   }
+
+  public int[] to3dPoint() {
+    return new int[] {this.height, this.weight, this.age};
+  }
 }
