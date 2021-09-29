@@ -116,8 +116,8 @@ public class KdTree {
       System.out.println("neighbors.size() < k: " + Arrays.toString(node.kdPoint));
       Neighbor newNeighbor = new Neighbor(node.kdPoint, distance);
       neighbors.add(newNeighbor);
-      findKNN(node.rightChild, target, k);
-      findKNN(node.leftChild, target, k);
+//      findKNN(node.rightChild, target, k);
+//      findKNN(node.leftChild, target, k);
     } else if (distance < neighbors.peek().distance) {
       System.out.println("distance < neighbors.peek().distance: " + Arrays.toString(node.kdPoint));
 //      System.out.println("leftchild: " + node.leftChild); IS NULL!!
@@ -134,7 +134,8 @@ public class KdTree {
 //    System.out.println("nodeAxisVal:" + nodeAxisVal);
 //    System.out.println("neighbors.peek().distance:" + neighbors.peek().distance);
 
-    if (neighbors.peek().distance > (Math.abs(targetAxisVal - nodeAxisVal))) {
+    if ((neighbors.size() < k) ||
+        (neighbors.peek().distance > (Math.abs(targetAxisVal - nodeAxisVal)))) {
       System.out.println("recur both: " + Arrays.toString(node.kdPoint));
       findKNN(node.rightChild, target, k);
       findKNN(node.leftChild, target, k);
