@@ -16,12 +16,9 @@ public class ClientRequestGenerator {
    */
   public static HttpRequest getRequest(URI reqUri) {
 
-    String apiKey = ClientAuth.getApiKey();
-
     HttpRequest request = HttpRequest.newBuilder()
-        .GET() // already GET by default, but writing for clarity
+        .GET()
         .uri(reqUri)
-        .header("x-api-key", apiKey)
         .build();
 
     return request;
