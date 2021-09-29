@@ -20,14 +20,10 @@ public class User {
         this.horoscope = horoscope;
     }
 
-    public int getUserid() {
-        return user_id;
-    }
-
     @Override
     public String toString() {
         return "[" + "user_id: " + user_id + ", weight: " + weight + " lbs, bust_size: " + bust_size
-                + ", height: " + height + ", age: " + age + ", body_type: " + body_type
+                + ", height: " + height + " in., age: " + age + ", body_type: " + body_type
                 + ", horoscope: " + horoscope + "]";
     }
 }

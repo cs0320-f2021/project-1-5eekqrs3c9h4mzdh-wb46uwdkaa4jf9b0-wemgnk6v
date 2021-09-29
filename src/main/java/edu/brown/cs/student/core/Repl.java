@@ -63,15 +63,6 @@ public class Repl {
             System.out.println(aggregator.rentData);
             System.out.println("Rent data size: " + aggregator.rentData.size());
 
-            // try creating user map (temporary)
-            HashMap<Integer, User> userMap = new HashMap();
-            JSONConverter converter = new JSONConverter();
-            for (JsonObject user : aggregator.usersData) {
-              User current = converter.jsonToUser(user);
-              userMap.put(current.getUserid(), current);
-            }
-            System.out.println(userMap);
-
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
           }

@@ -12,13 +12,13 @@ public class Aggregator {
   ApiClient client = new ApiClient();
 
   // Fields to hold the final datasets of user, review, and rent data
-  public Collection<JsonObject> usersData;
+  public Collection<User> usersData;
   public Collection<JsonObject> reviewData;
   public Collection<JsonObject> rentData;
 
   // Fields to hold a hashmap from ids -> jsonObjects (user, review, or rent) in order
   //   to keep track of what elements we've already seen
-  public HashMap<Integer, JsonObject> seenUsers = new HashMap<>();
+  public HashMap<Integer, User> seenUsers = new HashMap<>();
   public HashMap<Integer, JsonObject> seenReviews = new HashMap<>();
   public HashMap<Integer, JsonObject> seenRent = new HashMap<>();
 
@@ -105,7 +105,7 @@ public class Aggregator {
       case "user":
         for (JsonObject jo : with) {
           if (!seenUsers.containsKey(jo.get("user_id").getAsInt())) {
-            seenUsers.put(jo.get("user_id").getAsInt(), jo);
+            seenUsers.put(jo.get("user_id").getAsInt(), JSONConverter.jsonToUser(jo));
           }
         }
         break;

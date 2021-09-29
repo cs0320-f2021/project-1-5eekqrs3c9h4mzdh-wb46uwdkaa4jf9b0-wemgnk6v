@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 
 public class JSONConverter {
 
-  public User jsonToUser(JsonObject userJson) {
+  public static User jsonToUser(JsonObject userJson) {
 
     GsonBuilder gsonBuilder = new GsonBuilder();
 
