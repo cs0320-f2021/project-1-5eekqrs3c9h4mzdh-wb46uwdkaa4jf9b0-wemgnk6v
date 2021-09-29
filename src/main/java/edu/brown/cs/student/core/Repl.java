@@ -64,7 +64,7 @@ public class Repl {
             System.out.println("Rent data size: " + aggregator.rentData.size());
 
             // try creating user map (temporary)
-            HashMap<String, User> userMap = new HashMap();
+            HashMap<Integer, User> userMap = new HashMap();
             JSONConverter converter = new JSONConverter();
             for (JsonObject user : aggregator.usersData) {
               User current = converter.jsonToUser(user);

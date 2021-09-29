@@ -2,15 +2,15 @@ package edu.brown.cs.student.client;
 
 public class User {
 
-    private final String user_id;
-    private final String weight;
+    private final int user_id;
+    private final Double weight;
     private final String bust_size;
-    private final String height;
-    private final String age;
+    private final Double height;
+    private final Double age;
     private final String body_type;
     private final String horoscope;
 
-    public User(String user_id, String weight, String bust_size, String height, String age, String body_type, String horoscope) {
+    public User(int user_id, Double weight, String bust_size, Double height, Double age, String body_type, String horoscope) {
         this.user_id = user_id;
         this.weight = weight;
         this.bust_size = bust_size;
@@ -20,7 +20,7 @@ public class User {
         this.horoscope = horoscope;
     }
 
-    public String getUserid() {
+    public int getUserid() {
         return user_id;
     }
 
