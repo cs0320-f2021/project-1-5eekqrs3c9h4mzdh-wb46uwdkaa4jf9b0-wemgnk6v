@@ -1,11 +1,16 @@
 package edu.brown.cs.student.core;
 
+import com.google.gson.JsonObject;
+import edu.brown.cs.student.client.Aggregator;
 import edu.brown.cs.student.client.ApiClient;
-import edu.brown.cs.student.client.ClientRequestGenerator;
+import edu.brown.cs.student.client.JSONConverter;
+import edu.brown.cs.student.client.JSONopener;
+import edu.brown.cs.student.client.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 /**
@@ -43,29 +48,20 @@ public class Repl {
         if (st.hasMoreTokens()) { // if the input is not blank, get the first token (the command)
           String command = st.nextToken();
 
-          if (command.equals("basicGet")) { // Basic GET request
-            client.makeRequest(ClientRequestGenerator.getIntroGetRequest());
+          if (command.equals("aggregate")) {
+            // Instantiate new aggregator
+            Aggregator aggregator = new Aggregator();
 
-          } else if (command.equals("keyedGet")) { // GET request with an api key
-            client.makeRequest(ClientRequestGenerator.getSecuredGetRequest());
+            // Load the data
+            aggregator.loadData();
 
-          } else if (command.equals("keyedPost")) { // POST with an api key
-            String name;
-            if (st.hasMoreTokens()) {
-              name = st.nextToken();
-            } else {
-              name = "";
-            }
-            client.makeRequest(ClientRequestGenerator.getSecuredPostRequest(name));
-
-          } else if (command.equals("getHoroscopes")) { // GET with an api key and a string param
-            String name;
-            if (st.hasMoreTokens()) {
-              name = st.nextToken();
-            } else {
-              name = "";
-            }
-            client.makeRequest(ClientRequestGenerator.getHoroscopeGetRequest(name));
+            // Print the data
+            System.out.println(aggregator.usersData);
+            System.out.println("User data size: " + aggregator.usersData.size());
+            System.out.println(aggregator.reviewData);
+            System.out.println("Review data size: " + aggregator.reviewData.size());
+            System.out.println(aggregator.rentData);
+            System.out.println("Rent data size: " + aggregator.rentData.size());
 
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
@@ -83,3 +79,4 @@ public class Repl {
     }
   }
 }
+
