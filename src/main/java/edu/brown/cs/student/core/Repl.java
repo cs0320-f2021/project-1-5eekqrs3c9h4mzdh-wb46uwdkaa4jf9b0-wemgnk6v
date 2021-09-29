@@ -58,36 +58,11 @@ public class Repl {
             System.out.println("Review data size: " + aggregator.reviewData.size());
             System.out.println(aggregator.rentData);
             System.out.println("Rent data size: " + aggregator.rentData.size());
-          }
-
-//          if (command.equals("basicGet")) { // Basic GET request
-//            client.makeRequest(ClientRequestGenerator.getIntroGetRequest());
-//
-//          } else if (command.equals("keyedGet")) { // GET request with an api key
-//            client.makeRequest(ClientRequestGenerator.getSecuredGetRequest());
-//
-//          } else if (command.equals("keyedPost")) { // POST with an api key
-//            String name;
-//            if (st.hasMoreTokens()) {
-//              name = st.nextToken();
-//            } else {
-//              name = "";
-//            }
-//            client.makeRequest(ClientRequestGenerator.getSecuredPostRequest(name));
-//
-//          } else if (command.equals("getHoroscopes")) { // GET with an api key and a string param
-//            String name;
-//            if (st.hasMoreTokens()) {
-//              name = st.nextToken();
-//            } else {
-//              name = "";
-//            }
-//            client.makeRequest(ClientRequestGenerator.getHoroscopeGetRequest(name));
 
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
           }
-        //}
+        }
       } catch (IOException e) { // some kind of read error, so the repl exits
         System.out.println("ERROR: Failed parsing input.");
         break;
@@ -100,3 +75,4 @@ public class Repl {
     }
   }
 }
+
