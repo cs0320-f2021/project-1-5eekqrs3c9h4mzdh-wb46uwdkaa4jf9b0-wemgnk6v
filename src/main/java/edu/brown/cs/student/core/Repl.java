@@ -1,12 +1,16 @@
 package edu.brown.cs.student.core;
 
+import com.google.gson.JsonObject;
 import edu.brown.cs.student.client.Aggregator;
 import edu.brown.cs.student.client.ApiClient;
+import edu.brown.cs.student.client.JSONConverter;
 import edu.brown.cs.student.client.JSONopener;
+import edu.brown.cs.student.client.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 /**
@@ -58,6 +62,15 @@ public class Repl {
             System.out.println("Review data size: " + aggregator.reviewData.size());
             System.out.println(aggregator.rentData);
             System.out.println("Rent data size: " + aggregator.rentData.size());
+
+            // try creating user map (temporary)
+            HashMap<String, User> userMap = new HashMap();
+            JSONConverter converter = new JSONConverter();
+            for (JsonObject user : aggregator.usersData) {
+              User current = converter.jsonToUser(user);
+              userMap.put(current.getUserid(), current);
+            }
+            System.out.println(userMap);
 
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
