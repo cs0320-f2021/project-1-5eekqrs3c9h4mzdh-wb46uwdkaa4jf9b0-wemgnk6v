@@ -26,20 +26,22 @@ public class KdTree {
 
   // private class Node has k-D point, left neighbor, right neighbor, ____
   private class Node {
-    private int[] kdPoint;
+    private Double[] kdPoint;
     private Node leftChild;
     private Node rightChild;
     private int axis;
+    private int elementID;
 
-    Node(int[] kdPoint, int axis) {
+    Node(Double[] kdPoint, int axis, int elementID) {
       // kdPoint is an array of length k
       this.kdPoint = kdPoint;
       this.leftChild = null;
       this.rightChild = null;
       this.axis = axis;
+      this.elementID = elementID;
     }
 
-    public double calcDistance(int[] target) {
+    public double calcDistance(Double[] target) {
       double sum = 0;
       for (int i = 0; i < numDimensions; i++) {
         sum = sum + Math.pow((target[i] - kdPoint[i]), 2);
@@ -49,12 +51,14 @@ public class KdTree {
   }
 
   private class Neighbor implements Comparable<Neighbor> {
-    private int[] kdPoint;
+    private Double[] kdPoint;
     private double distance;
+    private int elementID;
 
-    Neighbor(int[] kdPoint, double distance) {
+    Neighbor(Double[] kdPoint, double distance, int elementID) {
       this.kdPoint = kdPoint;
       this.distance = distance;
+      this.elementID = elementID;
     }
 
     @Override
@@ -64,7 +68,7 @@ public class KdTree {
     }
   }
 
-  private Node buildKdTree(int[][] kdArray, int depth) {
+  private Node buildKdTree(KdElement[] kdArray, int depth) {
     int arrayLen = kdArray.length;
     if (arrayLen == 0) {
       return null;
@@ -76,18 +80,18 @@ public class KdTree {
     int axis = depth % numDimensions;
 
     // Sort array of KD points by axis
-    Arrays.sort(kdArray, Comparator.comparingInt(o -> o[axis]));
+    Arrays.sort(kdArray, Comparator.comparingDouble(o -> o.getKdPoint()[axis]));
 
     // values that are greater than or equal to the median element are on the right side
     int middleNum = arrayLen / 2;
     int i = middleNum - 1;
-    while ((i >= 0) && (kdArray[middleNum][axis] == kdArray[i][axis])) {
+    while ((i >= 0) && (kdArray[middleNum].getKdPoint()[axis] == kdArray[i].getKdPoint()[axis])) {
       middleNum = i;
       i = i - 1;
     }
-    int[] middleElement = kdArray[middleNum];
+    KdElement middleElement = kdArray[middleNum];
 
-    Node newNode = new Node(middleElement, axis);
+    Node newNode = new Node(middleElement.getKdPoint(), axis, middleElement.getElementID());
     // System.out.println(Arrays.toString(newNode.kdPoint));
     if (root == null) {
       this.root = newNode;
@@ -99,7 +103,7 @@ public class KdTree {
     return newNode;
   }
 
-  private void findKNN(Node node, int[] target, int k) {
+  private void findKNN(Node node, Double[] target, int k) {
     if (node == null) {
       // System.out.println("null if");
       return;
@@ -109,28 +113,28 @@ public class KdTree {
 
     if (neighbors.size() < k) {
       // System.out.println("neighbors.size() < k: " + Arrays.toString(node.kdPoint));
-      Neighbor newNeighbor = new Neighbor(node.kdPoint, distance);
+      Neighbor newNeighbor = new Neighbor(node.kdPoint, distance, node.elementID);
       neighbors.add(newNeighbor);
 //      findKNN(node.rightChild, target, k);
 //      findKNN(node.leftChild, target, k);
     } else if (distance < neighbors.peek().distance) {
-      // System.out.println("distance < neighbors.peek().distance: " + Arrays.toString(node.kdPoint));
+      // System.out.println("distance<neighbors.peek().distance:" + Arrays.toString(node.kdPoint));
 //      System.out.println("leftchild: " + node.leftChild); IS NULL!!
-      Neighbor newNeighbor = new Neighbor(node.kdPoint, distance);
+      Neighbor newNeighbor = new Neighbor(node.kdPoint, distance, node.elementID);
       neighbors.poll();
       neighbors.add(newNeighbor);
     }
 
     int axis = node.axis;
 //    System.out.println("axis:" + axis);
-    int targetAxisVal = target[axis];
+    Double targetAxisVal = target[axis];
 //    System.out.println("targetAxisVal:" + targetAxisVal);
-    int nodeAxisVal = node.kdPoint[axis];
+    Double nodeAxisVal = node.kdPoint[axis];
 //    System.out.println("nodeAxisVal:" + nodeAxisVal);
 //    System.out.println("neighbors.peek().distance:" + neighbors.peek().distance);
 
-    if ((neighbors.size() < k) ||
-        (neighbors.peek().distance > (Math.abs(targetAxisVal - nodeAxisVal)))) {
+    if ((neighbors.size() < k)
+        || (neighbors.peek().distance > (Math.abs(targetAxisVal - nodeAxisVal)))) {
       // System.out.println("recur both: " + Arrays.toString(node.kdPoint));
       findKNN(node.rightChild, target, k);
       findKNN(node.leftChild, target, k);
@@ -143,13 +147,13 @@ public class KdTree {
     }
   }
 
-  public void printKNN(int[] target, int[][] kdArray, int k) {
+  public void printKNN(Double[] target, KdElement[] kdArray, int k) {
     buildKdTree(kdArray, 0);
     //System.out.println("=======");
     findKNN(root, target, k);
     for (int i = 0; i < k; i++) {
       // System.out.println(neighbors.size());
-      int[] arr = neighbors.poll().kdPoint;
+      Double[] arr = neighbors.poll().kdPoint;
       System.out.println(Arrays.toString(arr));
     }
   }
