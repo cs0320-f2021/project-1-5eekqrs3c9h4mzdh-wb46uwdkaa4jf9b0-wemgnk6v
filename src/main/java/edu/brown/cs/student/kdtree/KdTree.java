@@ -17,11 +17,7 @@ public class KdTree {
   //    they'll be necessary for printing results of KNN
   private Node root;
   private int numDimensions;
-
   private PriorityQueue<Neighbor> neighbors = new PriorityQueue<Neighbor>();
-
-  private double minDistance = Integer.MAX_VALUE;
-  private Node minDistanceNode = null;
 
   public KdTree(int numDimensions) {
     this.root = null;
@@ -41,7 +37,6 @@ public class KdTree {
       this.leftChild = null;
       this.rightChild = null;
       this.axis = axis;
-      // root = buildKDTree(array, dimension); ??
     }
 
     public double calcDistance(int[] target) {
