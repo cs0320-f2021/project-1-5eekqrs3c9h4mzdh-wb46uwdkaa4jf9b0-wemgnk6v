@@ -88,7 +88,7 @@ public class KdTree {
     int[] middleElement = kdArray[middleNum];
 
     Node newNode = new Node(middleElement, axis);
-    System.out.println(Arrays.toString(newNode.kdPoint));
+    // System.out.println(Arrays.toString(newNode.kdPoint));
     if (root == null) {
       this.root = newNode;
     }
@@ -101,20 +101,20 @@ public class KdTree {
 
   private void findKNN(Node node, int[] target, int k) {
     if (node == null) {
-      System.out.println("null if");
+      // System.out.println("null if");
       return;
     }
 
     double distance = node.calcDistance(target);
 
     if (neighbors.size() < k) {
-      System.out.println("neighbors.size() < k: " + Arrays.toString(node.kdPoint));
+      // System.out.println("neighbors.size() < k: " + Arrays.toString(node.kdPoint));
       Neighbor newNeighbor = new Neighbor(node.kdPoint, distance);
       neighbors.add(newNeighbor);
 //      findKNN(node.rightChild, target, k);
 //      findKNN(node.leftChild, target, k);
     } else if (distance < neighbors.peek().distance) {
-      System.out.println("distance < neighbors.peek().distance: " + Arrays.toString(node.kdPoint));
+      // System.out.println("distance < neighbors.peek().distance: " + Arrays.toString(node.kdPoint));
 //      System.out.println("leftchild: " + node.leftChild); IS NULL!!
       Neighbor newNeighbor = new Neighbor(node.kdPoint, distance);
       neighbors.poll();
@@ -131,24 +131,24 @@ public class KdTree {
 
     if ((neighbors.size() < k) ||
         (neighbors.peek().distance > (Math.abs(targetAxisVal - nodeAxisVal)))) {
-      System.out.println("recur both: " + Arrays.toString(node.kdPoint));
+      // System.out.println("recur both: " + Arrays.toString(node.kdPoint));
       findKNN(node.rightChild, target, k);
       findKNN(node.leftChild, target, k);
     } else if (nodeAxisVal <= targetAxisVal) {
-      System.out.println("recur right: " + Arrays.toString(node.kdPoint));
+      //System.out.println("recur right: " + Arrays.toString(node.kdPoint));
       findKNN(node.rightChild, target, k);
     } else {
-      System.out.println("recur left: " + Arrays.toString(node.kdPoint));
+      //System.out.println("recur left: " + Arrays.toString(node.kdPoint));
       findKNN(node.leftChild, target, k);
     }
   }
 
   public void printKNN(int[] target, int[][] kdArray, int k) {
     buildKdTree(kdArray, 0);
-    System.out.println("=======");
+    //System.out.println("=======");
     findKNN(root, target, k);
     for (int i = 0; i < k; i++) {
-      System.out.println(neighbors.size());
+      // System.out.println(neighbors.size());
       int[] arr = neighbors.poll().kdPoint;
       System.out.println(Arrays.toString(arr));
     }
