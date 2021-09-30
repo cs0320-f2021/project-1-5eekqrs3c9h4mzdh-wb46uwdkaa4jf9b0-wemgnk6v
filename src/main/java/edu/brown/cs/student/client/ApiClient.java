@@ -12,44 +12,47 @@ import java.time.Duration;
  */
 public class ApiClient {
 
-  private HttpClient client;
+    // Field to store the HttpClient
+    HttpClient client;
 
-  public ApiClient() {
-    // TODO build an HttpClient with version HTTP_2 and connection timeout of 60 seconds.
-    // See https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html
-    HttpClient client = HttpClient.newBuilder()
-        .version(HttpClient.Version.HTTP_2)
-        .followRedirects(HttpClient.Redirect.NORMAL)
-        .connectTimeout(Duration.ofSeconds(60))
-        //.proxy(ProxySelector.of(new InetSocketAddress("proxy.example.com", 80)))
-        //.authenticator(Authenticator.getDefault())
-        .build();
-    this.client = client;
-  }
+    // Constructor for the ApiClient
+    public ApiClient() {
 
-  public void makeRequest(HttpRequest req) {
-
-    try {
-      HttpResponse<String> apiResponse = client.send(req, HttpResponse.BodyHandlers.ofString());
-      System.out.println("Status " + apiResponse.statusCode());
-      System.out.println(apiResponse.body());
-
-    } catch (IOException ioe) {
-      System.out.println("An I/O error occurred when sending or receiving data.");
-      System.out.println(ioe.getMessage());
-
-    } catch (InterruptedException ie) {
-      System.out.println("The operation was interrupted.");
-      System.out.println(ie.getMessage());
-
-    } catch (IllegalArgumentException iae) {
-      System.out.println(
-          "The request argument was invalid. It must be built as specified by HttpRequest.Builder.");
-      System.out.println(iae.getMessage());
-
-    } catch (SecurityException se) {
-      System.out.println("There was a security configuration error.");
-      System.out.println(se.getMessage());
+        this.client = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .connectTimeout(Duration.ofSeconds(60))
+                .build();
     }
-  }
+
+    // Method that makes a request to the API and returns a string in the form
+    //   of a Json
+    public String makeRequest(HttpRequest req) {
+
+        try {
+            HttpResponse<String> apiResponse = client.send(req, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Status " + apiResponse.statusCode());
+            return apiResponse.body();
+        } catch (IOException ioe) {
+            System.out.println("An I/O error occurred when sending or receiving data.");
+            System.out.println(ioe.getMessage());
+            return "An I/O error occurred when sending or receiving data.";
+
+        } catch (InterruptedException ie) {
+            System.out.println("The operation was interrupted.");
+            System.out.println(ie.getMessage());
+            return "The operation was interrupted.";
+
+        } catch (IllegalArgumentException iae) {
+            System.out.println(
+                    "The request argument was invalid. It must be built as specified by HttpRequest.Builder.");
+            System.out.println(iae.getMessage());
+            return "The request argument was invalid. It must be built as specified by HttpRequest.Builder.";
+
+        } catch (SecurityException se) {
+            System.out.println("There was a security configuration error.");
+            System.out.println(se.getMessage());
+            return "There was a security configuration error.";
+        }
+    }
 }
