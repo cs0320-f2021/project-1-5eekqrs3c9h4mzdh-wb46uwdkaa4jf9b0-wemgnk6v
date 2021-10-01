@@ -50,6 +50,10 @@ public class Aggregator {
    */
   public Aggregator() { }
 
+  /**
+   * Method to retrieve the User data.
+   * @return - a copy of the User data.
+   */
   public User[] getUsersData() {
     User[] copy = new User[this.usersData.size()];
     int i = 0;
@@ -60,6 +64,10 @@ public class Aggregator {
     return copy;
   }
 
+  /**
+   * Method to retrieve the Review data.
+   * @return - a copy of the Review data
+   */
   public JsonObject[] getReviewData() {
     JsonObject[] copy = new JsonObject[this.reviewData.size()];
     int i = 0;
@@ -70,6 +78,10 @@ public class Aggregator {
     return copy;
   }
 
+  /**
+   * Method to retrieve Rent data.
+   * @return - a copy of the Rent data
+   */
   public JsonObject[] getRentData() {
     JsonObject[] copy = new JsonObject[this.rentData.size()];
     int i = 0;
