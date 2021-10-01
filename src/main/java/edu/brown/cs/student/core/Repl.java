@@ -1,16 +1,11 @@
 package edu.brown.cs.student.core;
 
-import com.google.gson.JsonObject;
 import edu.brown.cs.student.client.Aggregator;
 import edu.brown.cs.student.client.ApiClient;
-import edu.brown.cs.student.client.JSONConverter;
-import edu.brown.cs.student.client.JSONopener;
-import edu.brown.cs.student.client.User;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -56,12 +51,12 @@ public class Repl {
             aggregator.loadData("all");
 
             // Print the data
-            System.out.println(aggregator.usersData);
-            System.out.println("User data size: " + aggregator.usersData.size());
-            System.out.println(aggregator.reviewData);
-            System.out.println("Review data size: " + aggregator.reviewData.size());
-            System.out.println(aggregator.rentData);
-            System.out.println("Rent data size: " + aggregator.rentData.size());
+            System.out.println(Arrays.toString(aggregator.getUsersData()));
+            System.out.println("User data size: " + aggregator.getUsersData().length);
+            System.out.println(Arrays.toString(aggregator.getReviewData()));
+            System.out.println("Review data size: " + aggregator.getReviewData().length);
+            System.out.println(Arrays.toString(aggregator.getRentData()));
+            System.out.println("Rent data size: " + aggregator.getRentData().length);
 
           } else if (command.equals("getUsers")) {
             // Instantiate new Aggregator
@@ -71,8 +66,8 @@ public class Repl {
             aggregator.loadData("user");
 
             // Print the data
-            System.out.println(aggregator.usersData);
-            System.out.println("User data size: " + aggregator.usersData.size());
+            System.out.println(Arrays.toString(aggregator.getUsersData()));
+            System.out.println("User data size: " + aggregator.getUsersData().length);
 
           } else if (command.equals("getReviews")) {
             // Instantiate new Aggregator
@@ -82,8 +77,8 @@ public class Repl {
             aggregator.loadData("review");
 
             // Print the data
-            System.out.println(aggregator.reviewData);
-            System.out.println("Review data size: " + aggregator.reviewData.size());
+            System.out.println(Arrays.toString(aggregator.getReviewData()));
+            System.out.println("Review data size: " + aggregator.getReviewData().length);
 
           } else if (command.equals("getRent")) {
             // Instantiate new Aggregator
@@ -93,8 +88,8 @@ public class Repl {
             aggregator.loadData("rent");
 
             // Print the data
-            System.out.println(aggregator.rentData);
-            System.out.println("Rent data size: " + aggregator.rentData.size());
+            System.out.println(Arrays.toString(aggregator.getRentData()));
+            System.out.println("Rent data size: " + aggregator.getRentData().length);
 
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
