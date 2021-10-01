@@ -1,7 +1,7 @@
 package edu.brown.cs.student.core;
 
 import edu.brown.cs.student.client.Aggregator;
-import edu.brown.cs.student.client.ApiClient;
+import edu.brown.cs.student.client.JSONopener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,11 +23,9 @@ public class Repl {
   }
 
   /**
-   * This run method for the REPL requires an ApiClient object.
-   *
-   * @param client
+   * A run method for the REPL.
    */
-  public void run(ApiClient client) {
+  public void run() {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     while (true) { // parsing input loop
@@ -90,6 +88,10 @@ public class Repl {
             // Print the data
             System.out.println(Arrays.toString(aggregator.getRentData()));
             System.out.println("Rent data size: " + aggregator.getRentData().length);
+
+            // command to open a local .json file (follow the command with a filepath to the .json)
+          } else if (command.equals("open")) {
+            System.out.println(Arrays.toString(new JSONopener(st.nextToken(), true).getData()));
 
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");

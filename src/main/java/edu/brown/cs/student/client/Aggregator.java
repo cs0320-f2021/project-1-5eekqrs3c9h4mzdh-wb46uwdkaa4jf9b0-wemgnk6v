@@ -147,12 +147,13 @@ public class Aggregator {
    */
   public JsonObject[] getData(URI from, String type) {
     JSONopener jopen = new JSONopener(this.client.
-            makeRequest(ClientRequestGenerator.getRequest(from)));
+            makeRequest(ClientRequestGenerator.getRequest(from)), false);
 
     // Check to make sure it's the right type of data
-    if ((type.equals("user") && jopen.isUserData) || (type.equals("review") && jopen.isReviewData)
-            || (type.equals("rent") && jopen.isRentData)) {
-      return jopen.data;
+    if ((type.equals("user") && jopen.getIsUserData())
+            || (type.equals("review") && jopen.getIsReviewData())
+            || (type.equals("rent") && jopen.getIsRentData())) {
+      return jopen.getData();
     } else {
       // If it's not (wrong type of data or a malicious error), then return null
       return null;
