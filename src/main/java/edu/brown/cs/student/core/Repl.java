@@ -48,18 +48,51 @@ public class Repl {
         if (st.hasMoreTokens()) { // if the input is not blank, get the first token (the command)
           String command = st.nextToken();
 
-          if (command.equals("aggregate")) {
+          if (command.equals("getAll")) {
             // Instantiate new aggregator
             Aggregator aggregator = new Aggregator();
 
             // Load the data
-            aggregator.loadData();
+            aggregator.loadData("all");
 
             // Print the data
             System.out.println(aggregator.usersData);
             System.out.println("User data size: " + aggregator.usersData.size());
             System.out.println(aggregator.reviewData);
             System.out.println("Review data size: " + aggregator.reviewData.size());
+            System.out.println(aggregator.rentData);
+            System.out.println("Rent data size: " + aggregator.rentData.size());
+
+          } else if (command.equals("getUsers")) {
+            // Instantiate new Aggregator
+            Aggregator aggregator = new Aggregator();
+
+            // Load the data
+            aggregator.loadData("user");
+
+            // Print the data
+            System.out.println(aggregator.usersData);
+            System.out.println("User data size: " + aggregator.usersData.size());
+
+          } else if (command.equals("getReviews")) {
+            // Instantiate new Aggregator
+            Aggregator aggregator = new Aggregator();
+
+            // Load the data
+            aggregator.loadData("review");
+
+            // Print the data
+            System.out.println(aggregator.reviewData);
+            System.out.println("Review data size: " + aggregator.reviewData.size());
+
+          } else if (command.equals("getRent")) {
+            // Instantiate new Aggregator
+            Aggregator aggregator = new Aggregator();
+
+            // Load the data
+            aggregator.loadData("rent");
+
+            // Print the data
             System.out.println(aggregator.rentData);
             System.out.println("Rent data size: " + aggregator.rentData.size());
 
