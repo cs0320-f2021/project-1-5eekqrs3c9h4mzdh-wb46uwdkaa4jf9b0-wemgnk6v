@@ -4,101 +4,179 @@ import com.google.gson.JsonObject;
 import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
+/**
+ * Class that aggregates the APIs, retrieves their data, and stores it.
+ */
 public class Aggregator {
 
   // Create API Client to make requests
-  ApiClient client = new ApiClient();
+  private final ApiClient client = new ApiClient();
 
   // Fields to hold the final datasets of user, review, and rent data
-  public Collection<User> usersData;
-  public Collection<JsonObject> reviewData;
-  public Collection<JsonObject> rentData;
+  private Collection<User> usersData;
+  private Collection<JsonObject> reviewData;
+  private Collection<JsonObject> rentData;
 
   // Fields to hold a hashmap from ids -> jsonObjects (user, review, or rent) in order
   //   to keep track of what elements we've already seen
-  public HashMap<Integer, User> seenUsers = new HashMap<>();
-  public HashMap<Integer, JsonObject> seenReviews = new HashMap<>();
-  public HashMap<Integer, JsonObject> seenRent = new HashMap<>();
-
-  // Empty constructor for the aggregator
-  public Aggregator() { }
+  private final HashMap<Integer, User> seenUsers = new HashMap<>();
+  private final HashMap<Integer, JsonObject> seenReviews = new HashMap<>();
+  private final HashMap<Integer, JsonObject> seenRent = new HashMap<>();
 
   // Links for Users
-  URI users1 = URI.create("https://runwayapi.herokuapp.com/users-one?auth=abredvik&key=27pjaN8");
-  URI users2 = URI.create("https://runwayapi.herokuapp.com/users-two?auth=abredvik&key=27pjaN8");
-  URI users3 = URI.create("https://runwayapi.herokuapp.com/users-three?auth=abredvik&key=27pjaN8");
-  URI users4 = URI.create("https://runwayapi.herokuapp.com/users-four?auth=abredvik&key=27pjaN8");
-  URI users5 = URI.create("https://runwayapi.herokuapp.com/users-five?auth=abredvik&key=27pjaN8");
-  List<URI> userLinks = List.of(users1, users2, users3, users4, users5);
+  private final URI users1 = URI.create("https://runwayapi.herokuapp.com/users-one?auth=abredvik&key=27pjaN8");
+  private final URI users2 = URI.create("https://runwayapi.herokuapp.com/users-two?auth=abredvik&key=27pjaN8");
+  private final URI users3 = URI.create("https://runwayapi.herokuapp.com/users-three?auth=abredvik&key=27pjaN8");
+  private final URI users4 = URI.create("https://runwayapi.herokuapp.com/users-four?auth=abredvik&key=27pjaN8");
+  private final URI users5 = URI.create("https://runwayapi.herokuapp.com/users-five?auth=abredvik&key=27pjaN8");
 
   // Links for Reviews
-  URI reviews1 = URI.create("https://runwayapi.herokuapp.com/reviews-one?auth=abredvik&key=27pjaN8");
-  URI reviews2 = URI.create("https://runwayapi.herokuapp.com/reviews-two?auth=abredvik&key=27pjaN8");
-  URI reviews3 = URI.create("https://runwayapi.herokuapp.com/reviews-three?auth=abredvik&key=27pjaN8");
-  URI reviews4 = URI.create("https://runwayapi.herokuapp.com/reviews-four?auth=abredvik&key=27pjaN8");
-  URI reviews5 = URI.create("https://runwayapi.herokuapp.com/reviews-five?auth=abredvik&key=27pjaN8");
-  List<URI> reviewLinks = List.of(reviews1, reviews2, reviews3, reviews4, reviews5);
+  private final URI reviews1 = URI.create("https://runwayapi.herokuapp.com/reviews-one?auth=abredvik&key=27pjaN8");
+  private final URI reviews2 = URI.create("https://runwayapi.herokuapp.com/reviews-two?auth=abredvik&key=27pjaN8");
+  private final URI reviews3 = URI.create("https://runwayapi.herokuapp.com/reviews-three?auth=abredvik&key=27pjaN8");
+  private final URI reviews4 = URI.create("https://runwayapi.herokuapp.com/reviews-four?auth=abredvik&key=27pjaN8");
+  private final URI reviews5 = URI.create("https://runwayapi.herokuapp.com/reviews-five?auth=abredvik&key=27pjaN8");
 
   // Links for Rent
-  URI rent1 = URI.create("https://runwayapi.herokuapp.com/rent-one?auth=abredvik&key=27pjaN8");
-  URI rent2 = URI.create("https://runwayapi.herokuapp.com/rent-two?auth=abredvik&key=27pjaN8");
-  URI rent3 = URI.create("https://runwayapi.herokuapp.com/rent-three?auth=abredvik&key=27pjaN8");
-  URI rent4 = URI.create("https://runwayapi.herokuapp.com/rent-four?auth=abredvik&key=27pjaN8");
-  URI rent5 = URI.create("https://runwayapi.herokuapp.com/rent-five?auth=abredvik&key=27pjaN8");
-  List<URI> rentLinks = List.of(rent1, rent2, rent3, rent4, rent5);
+  private final URI rent1 = URI.create("https://runwayapi.herokuapp.com/rent-one?auth=abredvik&key=27pjaN8");
+  private final URI rent2 = URI.create("https://runwayapi.herokuapp.com/rent-two?auth=abredvik&key=27pjaN8");
+  private final URI rent3 = URI.create("https://runwayapi.herokuapp.com/rent-three?auth=abredvik&key=27pjaN8");
+  private final URI rent4 = URI.create("https://runwayapi.herokuapp.com/rent-four?auth=abredvik&key=27pjaN8");
+  private final URI rent5 = URI.create("https://runwayapi.herokuapp.com/rent-five?auth=abredvik&key=27pjaN8");
 
-  // Main method that runs the aggregator
-  public void loadData() {
+  /**
+   * Constructor for the Aggregator (empty).
+   */
+  public Aggregator() { }
 
-    // Loop over all the user links once and keep track of the data
-    for (URI api : this.userLinks) {
-      JsonObject[] apiData = getData(api, "user");
-      if (apiData != null) {
-        merge(apiData, "user");
-      }
+  /**
+   * Method to retrieve the User data.
+   * @return - a copy of the User data.
+   */
+  public User[] getUsersData() {
+    User[] copy = new User[this.usersData.size()];
+    int i = 0;
+    for (User u : this.usersData) {
+      copy[i] = u;
+      i++;
     }
-    // Store the final dataset in the usersData field
-    this.usersData = this.seenUsers.values();
-
-    // Loop over all the review links once and keep track of the data
-    for (URI api : this.reviewLinks) {
-      JsonObject[] apiData = getData(api, "review");
-      if (apiData != null) {
-        merge(apiData, "review");
-      }
-    }
-    // Store the final dataset in the reviewData field
-    this.reviewData = this.seenReviews.values();
-
-    // Loop over all the rent links once and keep track of the data
-    for (URI api : this.rentLinks) {
-      JsonObject[] apiData = getData(api, "rent");
-      if (apiData != null) {
-        merge(apiData, "rent");
-      }
-    }
-    // Store the final dataset in the rentData field
-    this.rentData = this.seenRent.values();
+    return copy;
   }
 
-  // Method that pings the API, opens the JSON, and returns the resulting JsonObject array
+  /**
+   * Method to retrieve the Review data.
+   * @return - a copy of the Review data
+   */
+  public JsonObject[] getReviewData() {
+    JsonObject[] copy = new JsonObject[this.reviewData.size()];
+    int i = 0;
+    for (JsonObject rev : this.reviewData) {
+      copy[i] = rev;
+      i++;
+    }
+    return copy;
+  }
+
+  /**
+   * Method to retrieve Rent data.
+   * @return - a copy of the Rent data
+   */
+  public JsonObject[] getRentData() {
+    JsonObject[] copy = new JsonObject[this.rentData.size()];
+    int i = 0;
+    for (JsonObject rev : this.rentData) {
+      copy[i] = rev;
+      i++;
+    }
+    return copy;
+  }
+
+  /**
+   * Method that handles pinging/loading the data (runs the aggregator).
+   * @param type - the type of data to retrieve
+   */
+  public void loadData(String type) {
+
+    if (type.equals("all") || type.equals("user")) {
+      // Ping user apis
+      ping(users1, "user", 1); // one call (frequent errors)
+      ping(users2, "user", 3); // three calls (good)
+      ping(users3, "user", 3); // three calls (good)
+      ping(users4, "user", 1); // one call (long time)
+      ping(users5, "user", 2); // two calls (fast, but sometimes unreliable)
+
+      // Store the final dataset in the usersData field
+      this.usersData = this.seenUsers.values();
+    }
+
+    if (type.equals("all") || type.equals("review")) {
+      // Ping review apis
+      ping(reviews1, "review", 1); // one call (many errors)
+      ping(reviews2, "review", 2); // two calls (good, a little slow)
+      ping(reviews3, "review", 3); // three calls (changes data, but fast)
+      ping(reviews4, "review", 1); // one call (slow)
+      ping(reviews5, "review", 3); // three calls (fast, reliable)
+
+      // Store the final dataset in the reviewData field
+      this.reviewData = this.seenReviews.values();
+    }
+
+    if (type.equals("all") || type.equals("rent")) {
+      // Ping rent apis
+      ping(rent1, "rent", 1); // one call (many errors)
+      ping(rent2, "rent", 2); // two calls (a little slow, but good)
+      ping(rent3, "rent", 3); // three calls (fast, few errors)
+      ping(rent4, "rent", 1); // one call (very slow)
+      ping(rent5, "rent", 2); // two calls (fast, inaccurate data)
+
+      // Store the final dataset in the rentData field
+      this.rentData = this.seenRent.values();
+    }
+  }
+
+  /**
+   * Method that pings an API a certain number of times and merges its data.
+   * @param api - the API to ping
+   * @param type - the type of data to retrieve
+   * @param n - the number of times to ping the API
+   */
+  public void ping(URI api, String type, Integer n) {
+    for (int k = 1; k <= n; k++) {
+      JsonObject[] apiData = getData(api, type);
+      if (apiData != null) {
+        merge(apiData, type);
+      }
+    }
+  }
+
+
+  /**
+   * Method that makes a GET request, opens the JSON, and returns the data.
+   * @param from - the URI to make the GET request
+   * @param type - the type of data to retrieve
+   * @return - the data held in an array of JsonObjects
+   */
   public JsonObject[] getData(URI from, String type) {
-    JSONopener jopen = new JSONopener(this.client.makeRequest(ClientRequestGenerator.getRequest(from)));
+    JSONopener jopen = new JSONopener(this.client.
+            makeRequest(ClientRequestGenerator.getRequest(from)), false);
 
     // Check to make sure it's the right type of data
-    if ((type.equals("user") && jopen.isUserData) || (type.equals("review") && jopen.isReviewData) ||
-            (type.equals("rent") && jopen.isRentData)) {
-      return jopen.data;
+    if ((type.equals("user") && jopen.getIsUserData())
+            || (type.equals("review") && jopen.getIsReviewData())
+            || (type.equals("rent") && jopen.getIsRentData())) {
+      return jopen.getData();
     } else {
       // If it's not (wrong type of data or a malicious error), then return null
       return null;
     }
   }
 
-  // Merge a dataset (JsonObject array) with the final dataset, making sure
-  //   not to add repeats
+  /**
+   * Method that merges a new JsonObject array with an existing one (prevents repeated elements).
+   * @param with - the JsonObject array to merge with the current
+   * @param type - the type of data the array holds
+   */
   public void merge(JsonObject[] with, String type) {
 
     switch (type) {
@@ -123,6 +201,7 @@ public class Aggregator {
           }
         }
         break;
+      default: // Should never reach this point
     }
   }
 }

@@ -1,16 +1,11 @@
 package edu.brown.cs.student.core;
 
-import com.google.gson.JsonObject;
 import edu.brown.cs.student.client.Aggregator;
-import edu.brown.cs.student.client.ApiClient;
-import edu.brown.cs.student.client.JSONConverter;
 import edu.brown.cs.student.client.JSONopener;
-import edu.brown.cs.student.client.User;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -28,11 +23,9 @@ public class Repl {
   }
 
   /**
-   * This run method for the REPL requires an ApiClient object.
-   *
-   * @param client
+   * A run method for the REPL.
    */
-  public void run(ApiClient client) {
+  public void run() {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     while (true) { // parsing input loop
@@ -48,20 +41,57 @@ public class Repl {
         if (st.hasMoreTokens()) { // if the input is not blank, get the first token (the command)
           String command = st.nextToken();
 
-          if (command.equals("aggregate")) {
+          if (command.equals("getAll")) {
             // Instantiate new aggregator
             Aggregator aggregator = new Aggregator();
 
             // Load the data
-            aggregator.loadData();
+            aggregator.loadData("all");
 
             // Print the data
-            System.out.println(aggregator.usersData);
-            System.out.println("User data size: " + aggregator.usersData.size());
-            System.out.println(aggregator.reviewData);
-            System.out.println("Review data size: " + aggregator.reviewData.size());
-            System.out.println(aggregator.rentData);
-            System.out.println("Rent data size: " + aggregator.rentData.size());
+            System.out.println(Arrays.toString(aggregator.getUsersData()));
+            System.out.println("User data size: " + aggregator.getUsersData().length);
+            System.out.println(Arrays.toString(aggregator.getReviewData()));
+            System.out.println("Review data size: " + aggregator.getReviewData().length);
+            System.out.println(Arrays.toString(aggregator.getRentData()));
+            System.out.println("Rent data size: " + aggregator.getRentData().length);
+
+          } else if (command.equals("getUsers")) {
+            // Instantiate new Aggregator
+            Aggregator aggregator = new Aggregator();
+
+            // Load the data
+            aggregator.loadData("user");
+
+            // Print the data
+            System.out.println(Arrays.toString(aggregator.getUsersData()));
+            System.out.println("User data size: " + aggregator.getUsersData().length);
+
+          } else if (command.equals("getReviews")) {
+            // Instantiate new Aggregator
+            Aggregator aggregator = new Aggregator();
+
+            // Load the data
+            aggregator.loadData("review");
+
+            // Print the data
+            System.out.println(Arrays.toString(aggregator.getReviewData()));
+            System.out.println("Review data size: " + aggregator.getReviewData().length);
+
+          } else if (command.equals("getRent")) {
+            // Instantiate new Aggregator
+            Aggregator aggregator = new Aggregator();
+
+            // Load the data
+            aggregator.loadData("rent");
+
+            // Print the data
+            System.out.println(Arrays.toString(aggregator.getRentData()));
+            System.out.println("Rent data size: " + aggregator.getRentData().length);
+
+            // command to open a local .json file (follow the command with a filepath to the .json)
+          } else if (command.equals("open")) {
+            System.out.println(Arrays.toString(new JSONopener(st.nextToken(), true).getData()));
 
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
