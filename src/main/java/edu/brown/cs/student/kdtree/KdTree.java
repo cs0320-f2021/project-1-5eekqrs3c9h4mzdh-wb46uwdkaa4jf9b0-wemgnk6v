@@ -153,12 +153,14 @@ public class KdTree {
     findKNN(root, target, k);
     // TODO: need to check if target has same dimensions as tree
     int[] orderedNeighbors = new int[k];
-    for (int i = 0; i < k; i++) {
-      // assumes neighbors.size() == k
-      int id = neighbors.poll().elementID;
-      // reverse order of priority queue so that the neighbors array is in nearest to farthest order
-      orderedNeighbors[k - 1 - i] = id;
-    }
-    return orderedNeighbors;
+    if (neighbors.size() > 0) {
+      for (int i = 0; i < k; i++) {
+        // assumes neighbors.size() == k
+        int id = neighbors.poll().elementID;
+        // reverse order of priority queue so that the neighbors array is in nearest to farthest order
+        orderedNeighbors[k - 1 - i] = id;
+      }
+      return orderedNeighbors;
+    } else return new int[0];
   }
 }
