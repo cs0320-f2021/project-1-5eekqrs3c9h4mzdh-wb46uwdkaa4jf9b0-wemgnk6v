@@ -97,7 +97,7 @@ public class JSONopener {
   }
 
   public HashMap<Integer, User> getUserHashMap() {
-    return this.getUserHashMap();
+    return this.userHashMap;
   }
 
   /**
