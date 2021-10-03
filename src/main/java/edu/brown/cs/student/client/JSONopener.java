@@ -60,12 +60,14 @@ public class JSONopener {
     }
 
     // Check if the array contains user, review, or rent data
-    if (jsonArray.get(0).getAsJsonObject().has("weight")) {
-      this.isUserData = true;
-    } else if (jsonArray.get(0).getAsJsonObject().has("review_text")) {
-      this.isReviewData = true;
-    } else if (jsonArray.get(0).getAsJsonObject().has("fit")) {
-      this.isRentData = true;
+    if (jsonArray.size() > 1) {
+      if (jsonArray.get(0).getAsJsonObject().has("weight")) {
+        this.isUserData = true;
+      } else if (jsonArray.get(0).getAsJsonObject().has("review_text")) {
+        this.isReviewData = true;
+      } else if (jsonArray.get(0).getAsJsonObject().has("fit")) {
+        this.isRentData = true;
+      }
     }
 
     // If the array contains one of the data types, then loop over it and create
