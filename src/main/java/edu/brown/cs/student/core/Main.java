@@ -1,6 +1,7 @@
 package edu.brown.cs.student.core;
 
 import edu.brown.cs.student.client.ApiClient;
+import edu.brown.cs.student.kdtree.KdTree;
 
 
 /**
