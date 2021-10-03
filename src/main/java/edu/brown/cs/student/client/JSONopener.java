@@ -73,10 +73,10 @@ public class JSONopener {
     //   store that array in the data field
     if (isUserData || isReviewData || isRentData) {
       if (isFilePath) {
-        this.data = new JsonObject[jsonArray.size()];
-      } else {
         this.userHashMap = new HashMap<>();
         this.userArray = new User[jsonArray.size()];
+      } else {
+        this.data = new JsonObject[jsonArray.size()];
       }
 
       for (int i = 0; i < jsonArray.size(); i++) {
