@@ -61,10 +61,11 @@ public class Repl {
               userHashMap = aggregator.getUserHash();
               System.out.println("Loaded " + userArray.length + " users");
               // command to open a local .json file (follow the command with a filepath to the .json)
-            } else if (command.equals("open")) {
-              System.out.println(Arrays.toString(new JSONopener(arg, true).getData()));
-            } else { // command unrecognized
-              System.out.println("ERROR: Unrecognized command.");
+            } else {
+              JSONopener jsopen = new JSONopener(arg, true);
+              userArray = jsopen.getUserArray();
+              userHashMap = jsopen.getUserHashMap();
+              System.out.println("Loaded " + userArray.length + " users");
             }
           } else if (command.equals("similar")) {
             int kArg = Integer.parseInt(st.nextToken());
