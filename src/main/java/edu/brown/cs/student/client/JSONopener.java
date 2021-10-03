@@ -60,7 +60,7 @@ public class JSONopener {
     }
 
     // Check if the array contains user, review, or rent data
-    if (jsonArray.size() > 1) {
+    if (jsonArray.size() > 0) {
       if (jsonArray.get(0).getAsJsonObject().has("weight")) {
         this.isUserData = true;
       } else if (jsonArray.get(0).getAsJsonObject().has("review_text")) {
@@ -115,8 +115,7 @@ public class JSONopener {
    * @return - a boolean, the value of the field
    */
   public Boolean getIsUserData() {
-    // Prevent direct access to the field
-    return isUserData.booleanValue();
+    return isUserData;
   }
 
   /**
@@ -124,7 +123,7 @@ public class JSONopener {
    * @return - a boolean, the value of the field
    */
   public Boolean getIsReviewData() {
-    return isReviewData.booleanValue();
+    return isReviewData;
   }
 
   /**
@@ -132,6 +131,6 @@ public class JSONopener {
    * @return - a boolean, the value of the field
    */
   public Boolean getIsRentData() {
-    return isRentData.booleanValue();
+    return isRentData;
   }
 }
