@@ -147,14 +147,17 @@ public class KdTree {
     }
   }
 
-  public void printKNN(Double[] target, KdElement[] kdArray, int k) {
+  public int[] getArrayOfKnnIds(Double[] target, KdElement[] kdArray, int k) {
     buildKdTree(kdArray, 0);
     //System.out.println("=======");
     findKNN(root, target, k);
+    int[] orderedNeighbors = new int[k];
     for (int i = 0; i < k; i++) {
-      // System.out.println(neighbors.size());
-      Double[] arr = neighbors.poll().kdPoint;
-      System.out.println(Arrays.toString(arr));
+      // assumes neighbors.size() == k
+      int id = neighbors.poll().elementID;
+      // reverse order of priority queue so that the neighbors array is in nearest to farthest order
+      orderedNeighbors[k - 1 - i] = id;
     }
+    return orderedNeighbors;
   }
 }
