@@ -60,7 +60,6 @@ public class Repl {
               userArray = aggregator.getUsersData();
               userHashMap = aggregator.getUserHash();
               System.out.println("Loaded " + userArray.length + " users");
-              // command to open a local .json file (follow the command with a filepath to the .json)
             } else {
               JSONopener jsopen = new JSONopener(arg, true);
               userArray = jsopen.getUserArray();
