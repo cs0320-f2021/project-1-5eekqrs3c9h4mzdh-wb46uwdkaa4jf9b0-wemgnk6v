@@ -7,3 +7,6 @@ To run use:
 
 To start the server use:
 `./run --gui [--port=<port>]`
+
+To use this code, simply run the main method to begin the REPL.
+From there, there are 
