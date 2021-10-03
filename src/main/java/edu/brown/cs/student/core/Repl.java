@@ -31,6 +31,8 @@ public class Repl {
    */
   public void run() {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    HashMap<Integer, User> userHashMap = null;
+    User[] userArray = null;
 
     while (true) { // parsing input loop
       try {
@@ -44,8 +46,6 @@ public class Repl {
 
         if (st.hasMoreTokens()) { // if the input is not blank, get the first token (the command)
           String command = st.nextToken();
-          HashMap<Integer, User> userHashMap = null;
-          User[] userArray = null;
 
           if (command.equals("users")) {
             String arg = st.nextToken();
@@ -84,7 +84,7 @@ public class Repl {
             }
             KdTree kdTree = new KdTree(3);
             int[] neighborArray =
-                kdTree.getArrayOfKnnIds(new Double[] {heightArg, ageArg, weightArg}, userArray,
+                kdTree.getArrayOfKnnIds(new Double[] {weightArg, heightArg, ageArg}, userArray,
                     kArg);
             for (int id : neighborArray) {
               System.out.println(id);
@@ -106,7 +106,7 @@ public class Repl {
               ageArg = userHashMap.get(id).getAge();
             }
             KdTree kdTree = new KdTree(3);
-            kdTree.classifyUsers(new Double[] {heightArg, ageArg, weightArg}, userArray, kArg,
+            kdTree.classifyUsers(new Double[] {weightArg, heightArg, ageArg}, userArray, kArg,
                 userHashMap);
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
