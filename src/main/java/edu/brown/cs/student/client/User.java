@@ -2,7 +2,7 @@ package edu.brown.cs.student.client;
 
 import edu.brown.cs.student.kdtree.KdElement;
 
-public class User implements KdElement{
+public class User implements KdElement {
 
   private final int user_id;
   private final Double weight;
@@ -11,6 +11,18 @@ public class User implements KdElement{
   private final Double age;
   private final String body_type;
   private final String horoscope;
+
+  public Double getHeight() {
+    return height;
+  }
+
+  public Double getAge() {
+    return age;
+  }
+
+  public Double getWeight() {
+    return weight;
+  }
 
   public User(int user_id, Double weight, String bust_size, Double height, Double age,
               String body_type, String horoscope) {

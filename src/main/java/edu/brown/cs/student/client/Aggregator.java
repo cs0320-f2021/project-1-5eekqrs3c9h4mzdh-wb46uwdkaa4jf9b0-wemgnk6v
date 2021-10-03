@@ -1,6 +1,7 @@
 package edu.brown.cs.student.client;
 
 import com.google.gson.JsonObject;
+
 import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
@@ -25,33 +26,50 @@ public class Aggregator {
   private final HashMap<Integer, JsonObject> seenRent = new HashMap<>();
 
   // Links for Users
-  private final URI users1 = URI.create("https://runwayapi.herokuapp.com/users-one?auth=abredvik&key=27pjaN8");
-  private final URI users2 = URI.create("https://runwayapi.herokuapp.com/users-two?auth=abredvik&key=27pjaN8");
-  private final URI users3 = URI.create("https://runwayapi.herokuapp.com/users-three?auth=abredvik&key=27pjaN8");
-  private final URI users4 = URI.create("https://runwayapi.herokuapp.com/users-four?auth=abredvik&key=27pjaN8");
-  private final URI users5 = URI.create("https://runwayapi.herokuapp.com/users-five?auth=abredvik&key=27pjaN8");
+  private final URI users1 =
+      URI.create("https://runwayapi.herokuapp.com/users-one?auth=abredvik&key=27pjaN8");
+  private final URI users2 =
+      URI.create("https://runwayapi.herokuapp.com/users-two?auth=abredvik&key=27pjaN8");
+  private final URI users3 =
+      URI.create("https://runwayapi.herokuapp.com/users-three?auth=abredvik&key=27pjaN8");
+  private final URI users4 =
+      URI.create("https://runwayapi.herokuapp.com/users-four?auth=abredvik&key=27pjaN8");
+  private final URI users5 =
+      URI.create("https://runwayapi.herokuapp.com/users-five?auth=abredvik&key=27pjaN8");
 
   // Links for Reviews
-  private final URI reviews1 = URI.create("https://runwayapi.herokuapp.com/reviews-one?auth=abredvik&key=27pjaN8");
-  private final URI reviews2 = URI.create("https://runwayapi.herokuapp.com/reviews-two?auth=abredvik&key=27pjaN8");
-  private final URI reviews3 = URI.create("https://runwayapi.herokuapp.com/reviews-three?auth=abredvik&key=27pjaN8");
-  private final URI reviews4 = URI.create("https://runwayapi.herokuapp.com/reviews-four?auth=abredvik&key=27pjaN8");
-  private final URI reviews5 = URI.create("https://runwayapi.herokuapp.com/reviews-five?auth=abredvik&key=27pjaN8");
+  private final URI reviews1 =
+      URI.create("https://runwayapi.herokuapp.com/reviews-one?auth=abredvik&key=27pjaN8");
+  private final URI reviews2 =
+      URI.create("https://runwayapi.herokuapp.com/reviews-two?auth=abredvik&key=27pjaN8");
+  private final URI reviews3 =
+      URI.create("https://runwayapi.herokuapp.com/reviews-three?auth=abredvik&key=27pjaN8");
+  private final URI reviews4 =
+      URI.create("https://runwayapi.herokuapp.com/reviews-four?auth=abredvik&key=27pjaN8");
+  private final URI reviews5 =
+      URI.create("https://runwayapi.herokuapp.com/reviews-five?auth=abredvik&key=27pjaN8");
 
   // Links for Rent
-  private final URI rent1 = URI.create("https://runwayapi.herokuapp.com/rent-one?auth=abredvik&key=27pjaN8");
-  private final URI rent2 = URI.create("https://runwayapi.herokuapp.com/rent-two?auth=abredvik&key=27pjaN8");
-  private final URI rent3 = URI.create("https://runwayapi.herokuapp.com/rent-three?auth=abredvik&key=27pjaN8");
-  private final URI rent4 = URI.create("https://runwayapi.herokuapp.com/rent-four?auth=abredvik&key=27pjaN8");
-  private final URI rent5 = URI.create("https://runwayapi.herokuapp.com/rent-five?auth=abredvik&key=27pjaN8");
+  private final URI rent1 =
+      URI.create("https://runwayapi.herokuapp.com/rent-one?auth=abredvik&key=27pjaN8");
+  private final URI rent2 =
+      URI.create("https://runwayapi.herokuapp.com/rent-two?auth=abredvik&key=27pjaN8");
+  private final URI rent3 =
+      URI.create("https://runwayapi.herokuapp.com/rent-three?auth=abredvik&key=27pjaN8");
+  private final URI rent4 =
+      URI.create("https://runwayapi.herokuapp.com/rent-four?auth=abredvik&key=27pjaN8");
+  private final URI rent5 =
+      URI.create("https://runwayapi.herokuapp.com/rent-five?auth=abredvik&key=27pjaN8");
 
   /**
    * Constructor for the Aggregator (empty).
    */
-  public Aggregator() { }
+  public Aggregator() {
+  }
 
   /**
    * Method to retrieve the User data.
+   *
    * @return - a copy of the User data.
    */
   public User[] getUsersData() {
@@ -64,8 +82,13 @@ public class Aggregator {
     return copy;
   }
 
+  public HashMap<Integer, User> getUserHash() {
+    return this.seenUsers;
+  }
+
   /**
    * Method to retrieve the Review data.
+   *
    * @return - a copy of the Review data
    */
   public JsonObject[] getReviewData() {
@@ -80,6 +103,7 @@ public class Aggregator {
 
   /**
    * Method to retrieve Rent data.
+   *
    * @return - a copy of the Rent data
    */
   public JsonObject[] getRentData() {
@@ -94,6 +118,7 @@ public class Aggregator {
 
   /**
    * Method that handles pinging/loading the data (runs the aggregator).
+   *
    * @param type - the type of data to retrieve
    */
   public void loadData(String type) {
@@ -137,9 +162,10 @@ public class Aggregator {
 
   /**
    * Method that pings an API a certain number of times and merges its data.
-   * @param api - the API to ping
+   *
+   * @param api  - the API to ping
    * @param type - the type of data to retrieve
-   * @param n - the number of times to ping the API
+   * @param n    - the number of times to ping the API
    */
   public void ping(URI api, String type, Integer n) {
     for (int k = 1; k <= n; k++) {
@@ -153,18 +179,19 @@ public class Aggregator {
 
   /**
    * Method that makes a GET request, opens the JSON, and returns the data.
+   *
    * @param from - the URI to make the GET request
    * @param type - the type of data to retrieve
    * @return - the data held in an array of JsonObjects
    */
   public JsonObject[] getData(URI from, String type) {
     JSONopener jopen = new JSONopener(this.client.
-            makeRequest(ClientRequestGenerator.getRequest(from)), false);
+        makeRequest(ClientRequestGenerator.getRequest(from)), false);
 
     // Check to make sure it's the right type of data
     if ((type.equals("user") && jopen.getIsUserData())
-            || (type.equals("review") && jopen.getIsReviewData())
-            || (type.equals("rent") && jopen.getIsRentData())) {
+        || (type.equals("review") && jopen.getIsReviewData())
+        || (type.equals("rent") && jopen.getIsRentData())) {
       return jopen.getData();
     } else {
       // If it's not (wrong type of data or a malicious error), then return null
@@ -174,6 +201,7 @@ public class Aggregator {
 
   /**
    * Method that merges a new JsonObject array with an existing one (prevents repeated elements).
+   *
    * @param with - the JsonObject array to merge with the current
    * @param type - the type of data the array holds
    */

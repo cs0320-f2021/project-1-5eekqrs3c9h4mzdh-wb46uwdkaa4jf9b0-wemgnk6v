@@ -2,10 +2,14 @@ package edu.brown.cs.student.core;
 
 import edu.brown.cs.student.client.Aggregator;
 import edu.brown.cs.student.client.JSONopener;
+import edu.brown.cs.student.client.User;
+import edu.brown.cs.student.kdtree.KdTree;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 /**
@@ -15,9 +19,9 @@ public class Repl {
 
   /**
    * instantiates a REPL.
-   *
+   * <p>
    * // @param commands - a map of string command names to IReplMethod objects, which
-   *                 are a wrapper for a method to be called
+   * are a wrapper for a method to be called
    */
   public Repl() {
   }
@@ -40,64 +44,78 @@ public class Repl {
 
         if (st.hasMoreTokens()) { // if the input is not blank, get the first token (the command)
           String command = st.nextToken();
+          HashMap<Integer, User> userHashMap = null;
+          User[] userArray = null;
 
-          if (command.equals("getAll")) {
-            // Instantiate new aggregator
-            Aggregator aggregator = new Aggregator();
+          if (command.equals("users")) {
+            String arg = st.nextToken();
+            if (arg.equals("online")) {
+              // Instantiate new Aggregator
+              Aggregator aggregator = new Aggregator();
 
-            // Load the data
-            aggregator.loadData("all");
+              // Load the data
+              aggregator.loadData("user");
 
-            // Print the data
-            System.out.println(Arrays.toString(aggregator.getUsersData()));
-            System.out.println("User data size: " + aggregator.getUsersData().length);
-            System.out.println(Arrays.toString(aggregator.getReviewData()));
-            System.out.println("Review data size: " + aggregator.getReviewData().length);
-            System.out.println(Arrays.toString(aggregator.getRentData()));
-            System.out.println("Rent data size: " + aggregator.getRentData().length);
-
-          } else if (command.equals("getUsers")) {
-            // Instantiate new Aggregator
-            Aggregator aggregator = new Aggregator();
-
-            // Load the data
-            aggregator.loadData("user");
-
-            // Print the data
-            System.out.println(Arrays.toString(aggregator.getUsersData()));
-            System.out.println("User data size: " + aggregator.getUsersData().length);
-
-          } else if (command.equals("getReviews")) {
-            // Instantiate new Aggregator
-            Aggregator aggregator = new Aggregator();
-
-            // Load the data
-            aggregator.loadData("review");
-
-            // Print the data
-            System.out.println(Arrays.toString(aggregator.getReviewData()));
-            System.out.println("Review data size: " + aggregator.getReviewData().length);
-
-          } else if (command.equals("getRent")) {
-            // Instantiate new Aggregator
-            Aggregator aggregator = new Aggregator();
-
-            // Load the data
-            aggregator.loadData("rent");
-
-            // Print the data
-            System.out.println(Arrays.toString(aggregator.getRentData()));
-            System.out.println("Rent data size: " + aggregator.getRentData().length);
-
-            // command to open a local .json file (follow the command with a filepath to the .json)
-          } else if (command.equals("open")) {
-            System.out.println(Arrays.toString(new JSONopener(st.nextToken(), true).getData()));
-
+              // Store the data
+              userArray = aggregator.getUsersData();
+              userHashMap = aggregator.getUserHash();
+              System.out.println("Loaded " + userArray.length + " users");
+              // command to open a local .json file (follow the command with a filepath to the .json)
+            } else if (command.equals("open")) {
+              System.out.println(Arrays.toString(new JSONopener(arg, true).getData()));
+            } else { // command unrecognized
+              System.out.println("ERROR: Unrecognized command.");
+            }
+          } else if (command.equals("similar")) {
+            int kArg = Integer.parseInt(st.nextToken());
+            String idOrWeightArgString = st.nextToken();
+            Double weightArg;
+            Double heightArg;
+            Double ageArg;
+            if (st.hasMoreTokens()) {
+              heightArg = Double.parseDouble(st.nextToken());
+              ageArg = Double.parseDouble(st.nextToken());
+              weightArg = Double.parseDouble(idOrWeightArgString);
+            } else {
+              int id = Integer.parseInt(idOrWeightArgString);
+              heightArg = userHashMap.get(id).getHeight();
+              weightArg = userHashMap.get(id).getWeight();
+              ageArg = userHashMap.get(id).getAge();
+            }
+            KdTree kdTree = new KdTree(3);
+            int[] neighborArray =
+                kdTree.getArrayOfKnnIds(new Double[] {heightArg, ageArg, weightArg}, userArray,
+                    kArg);
+            for (int id : neighborArray) {
+              System.out.println(id);
+            }
+          } else if (command.equals("classify")) {
+            int kArg = Integer.parseInt(st.nextToken());
+            String idOrWeightArgString = st.nextToken();
+            Double weightArg;
+            Double heightArg;
+            Double ageArg;
+            if (st.hasMoreTokens()) {
+              heightArg = Double.parseDouble(st.nextToken());
+              ageArg = Double.parseDouble(st.nextToken());
+              weightArg = Double.parseDouble(idOrWeightArgString);
+            } else {
+              int id = Integer.parseInt(idOrWeightArgString);
+              heightArg = userHashMap.get(id).getHeight();
+              weightArg = userHashMap.get(id).getWeight();
+              ageArg = userHashMap.get(id).getAge();
+            }
+            KdTree kdTree = new KdTree(3);
+            kdTree.classifyUsers(new Double[] {heightArg, ageArg, weightArg}, userArray, kArg,
+                userHashMap);
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
           }
         }
       } catch (IOException e) { // some kind of read error, so the repl exits
+        System.out.println("ERROR: Failed parsing input.");
+        break;
+      } catch (Exception e) { // some kind of read error, so the repl exits
         System.out.println("ERROR: Failed parsing input.");
         break;
       }
