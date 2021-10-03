@@ -190,7 +190,9 @@ public class KdTree {
     int[] similarID = getArrayOfKnnIds(target, kdArray, k);
     for (int ID : similarID) {
       String horoscope = mapIDtoUser.get(ID).getHoroscope();
-      horoscopeCount.put(horoscope, horoscopeCount.get(horoscope) + 1);
+      if (horoscopeCount.containsKey(horoscope)) {
+        horoscopeCount.put(horoscope, horoscopeCount.get(horoscope) + 1);
+      }
     }
     for (String horoscopeKey : horoscopeCount.keySet()) {
       int count = horoscopeCount.get(horoscopeKey);
