@@ -2,6 +2,7 @@ package edu.brown.cs.student.kdtree;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class KdTree {
@@ -162,5 +163,31 @@ public class KdTree {
       }
       return orderedNeighbors;
     } else return new int[0];
+  }
+
+  // As a User of the REPL interface, I am able to print out a horoscope comparison chart of the k
+  // most similar users [closest in Euclidean distance of weights, heights, and ages] by running:
+  // classify <k> <some_user_id>
+  // classify <k> <weight in lbs> <height in inches> <age in years>
+  public void classify(Double[] target, KdElement[] kdArray, int k) {
+    HashMap<String, Integer> horoscopeCount = new HashMap<>()
+    {{
+      put("Aries", 0);
+      put("Taurus", 0);
+      put("Gemini", 0);
+      put("Cancer", 0);
+      put("Leo", 0);
+      put("Virgo", 0);
+      put("Libra", 0);
+      put("Scorpio", 0);
+      put("Sagittarius", 0);
+      put("Capricorn", 0);
+      put("Aquarius", 0);
+      put("Pisces", 0);
+    }};
+    int[] similarID = getArrayOfKnnIds(target, kdArray, k);
+    for (int ID : similarID) {
+
+    }
   }
 }
