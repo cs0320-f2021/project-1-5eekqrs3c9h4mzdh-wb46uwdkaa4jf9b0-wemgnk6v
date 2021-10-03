@@ -1,7 +1,10 @@
 package edu.brown.cs.student.kdtree;
 
+import edu.brown.cs.student.client.User;
+
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class KdTree {
@@ -151,13 +154,47 @@ public class KdTree {
     buildKdTree(kdArray, 0);
     //System.out.println("=======");
     findKNN(root, target, k);
+    // TODO: need to check if target has same dimensions as tree
     int[] orderedNeighbors = new int[k];
-    for (int i = 0; i < k; i++) {
-      // assumes neighbors.size() == k
-      int id = neighbors.poll().elementID;
-      // reverse order of priority queue so that the neighbors array is in nearest to farthest order
-      orderedNeighbors[k - 1 - i] = id;
+    if (neighbors.size() > 0) {
+      for (int i = 0; i < k; i++) {
+        // assumes neighbors.size() == k
+        int id = neighbors.poll().elementID;
+        // reverse order of priority queue so that the neighbors array is in nearest to farthest order
+        orderedNeighbors[k - 1 - i] = id;
+      }
+      return orderedNeighbors;
+    } else return new int[0];
+  }
+
+  // As a User of the REPL interface, I am able to print out a horoscope comparison chart of the k
+  // most similar users [closest in Euclidean distance of weights, heights, and ages] by running:
+  // classify <k> <some_user_id>
+  // classify <k> <weight in lbs> <height in inches> <age in years>
+  public void classifyUsers(Double[] target, KdElement[] kdArray, int k, HashMap<Integer, User> mapIDtoUser) {
+    HashMap<String, Integer> horoscopeCount = new HashMap<>()
+    {{
+      put("Aries", 0);
+      put("Taurus", 0);
+      put("Gemini", 0);
+      put("Cancer", 0);
+      put("Leo", 0);
+      put("Virgo", 0);
+      put("Libra", 0);
+      put("Scorpio", 0);
+      put("Sagittarius", 0);
+      put("Capricorn", 0);
+      put("Aquarius", 0);
+      put("Pisces", 0);
+    }};
+    int[] similarID = getArrayOfKnnIds(target, kdArray, k);
+    for (int ID : similarID) {
+      String horoscope = mapIDtoUser.get(ID).getHoroscope();
+      horoscopeCount.put(horoscope, horoscopeCount.get(horoscope) + 1);
     }
-    return orderedNeighbors;
+    for (String horoscopeKey : horoscopeCount.keySet()) {
+      int count = horoscopeCount.get(horoscopeKey);
+      System.out.println(horoscopeKey + ": " + count);
+    }
   }
 }
