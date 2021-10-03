@@ -164,16 +164,18 @@ public class KdTree {
         orderedNeighbors[k - 1 - i] = id;
       }
       return orderedNeighbors;
-    } else return new int[0];
+    } else {
+      return new int[0];
+    }
   }
 
   // As a User of the REPL interface, I am able to print out a horoscope comparison chart of the k
   // most similar users [closest in Euclidean distance of weights, heights, and ages] by running:
   // classify <k> <some_user_id>
   // classify <k> <weight in lbs> <height in inches> <age in years>
-  public void classifyUsers(Double[] target, KdElement[] kdArray, int k, HashMap<Integer, User> mapIDtoUser) {
-    HashMap<String, Integer> horoscopeCount = new HashMap<>()
-    {{
+  public void classifyUsers(Double[] target, KdElement[] kdArray, int k,
+                            HashMap<Integer, User> mapIDtoUser) {
+    HashMap<String, Integer> horoscopeCount = new HashMap<>() {{
       put("Aries", 0);
       put("Taurus", 0);
       put("Gemini", 0);
