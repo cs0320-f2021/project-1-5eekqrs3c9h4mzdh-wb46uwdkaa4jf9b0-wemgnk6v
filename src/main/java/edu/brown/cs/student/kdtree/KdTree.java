@@ -1,5 +1,7 @@
 package edu.brown.cs.student.kdtree;
 
+import edu.brown.cs.student.client.User;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -169,7 +171,7 @@ public class KdTree {
   // most similar users [closest in Euclidean distance of weights, heights, and ages] by running:
   // classify <k> <some_user_id>
   // classify <k> <weight in lbs> <height in inches> <age in years>
-  public void classify(Double[] target, KdElement[] kdArray, int k) {
+  public void classifyUsers(Double[] target, KdElement[] kdArray, int k, HashMap<Integer, User> mapIDtoUser) {
     HashMap<String, Integer> horoscopeCount = new HashMap<>()
     {{
       put("Aries", 0);
@@ -187,7 +189,12 @@ public class KdTree {
     }};
     int[] similarID = getArrayOfKnnIds(target, kdArray, k);
     for (int ID : similarID) {
-
+      String horoscope = mapIDtoUser.get(ID).getHoroscope();
+      horoscopeCount.put(horoscope, horoscopeCount.get(horoscope) + 1);
+    }
+    for (String horoscopeKey : horoscopeCount.keySet()) {
+      int count = horoscopeCount.get(horoscopeKey);
+      System.out.println(horoscopeKey + ": " + count);
     }
   }
 }

@@ -23,6 +23,10 @@ public class User implements KdElement{
     this.horoscope = horoscope;
   }
 
+  public String getHoroscope() {
+    return horoscope;
+  }
+
   @Override
   public String toString() {
     return "[" + "user_id: " + user_id + ", weight: " + weight + " lbs, bust_size: " + bust_size
