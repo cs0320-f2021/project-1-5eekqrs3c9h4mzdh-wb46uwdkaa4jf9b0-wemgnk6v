@@ -5,6 +5,7 @@ import com.google.gson.*;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 /**
  * Class that handles opening JSONs.
@@ -13,6 +14,10 @@ public class JSONopener {
 
   // Field to store the resulting JsonObject array
   private JsonObject[] data;
+
+  public User[] userArray;
+
+  public HashMap<Integer, User> userHashMap;
 
   // Fields to store information about the dataset
   private Boolean isUserData = false;
@@ -67,10 +72,22 @@ public class JSONopener {
     //   another array containing JsonObjects (that are easier to work with) and
     //   store that array in the data field
     if (isUserData || isReviewData || isRentData) {
-      this.data = new JsonObject[jsonArray.size()];
+      if (isFilePath) {
+        this.data = new JsonObject[jsonArray.size()];
+      } else {
+        this.userHashMap = new HashMap<>();
+        this.userArray = new User[jsonArray.size()];
+      }
+
       for (int i = 0; i < jsonArray.size(); i++) {
         JsonObject e = jsonArray.get(i).getAsJsonObject();
-        this.data[i] = e;
+        if (isFilePath) {
+          User u = JSONConverter.jsonToUser(e);
+          this.userArray[i] = u;
+          this.userHashMap.put(e.get("user_id").getAsInt(), u);
+        } else {
+          this.data[i] = e;
+        }
       }
     }
   }
