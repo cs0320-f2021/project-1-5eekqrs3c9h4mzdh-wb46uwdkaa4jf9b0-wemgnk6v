@@ -15,9 +15,9 @@ public class JSONopener {
   // Field to store the resulting JsonObject array
   private JsonObject[] data;
 
-  public User[] userArray;
+  private User[] userArray;
 
-  public HashMap<Integer, User> userHashMap;
+  private HashMap<Integer, User> userHashMap;
 
   // Fields to store information about the dataset
   private Boolean isUserData = false;
@@ -90,6 +90,14 @@ public class JSONopener {
         }
       }
     }
+  }
+
+  public User[] getUserArray() {
+    return this.userArray;
+  }
+
+  public HashMap<Integer, User> getUserHashMap() {
+    return this.getUserHashMap();
   }
 
   /**
