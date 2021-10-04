@@ -1,7 +1,6 @@
 package edu.brown.cs.student.client;
 
 import com.google.gson.*;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,8 +14,10 @@ public class JSONopener {
   // Field to store the resulting JsonObject array
   private JsonObject[] data;
 
+  // Field to store an array of users (only used for opening local file path)
   private User[] userArray;
 
+  // Field to store a hashmap of user id's -> users (only used for opening local file path)
   private HashMap<Integer, User> userHashMap;
 
   // Fields to store information about the dataset
@@ -37,7 +38,7 @@ public class JSONopener {
     // Initialize jsonArray variable
     JsonArray jsonArray = new JsonArray();
 
-    // Check if the string is as filepath
+    // Check if the string is a filepath
     if (isFilePath) {
       try {
         // create a reader
@@ -70,20 +71,20 @@ public class JSONopener {
       }
     }
 
-    // If the array contains one of the data types, then loop over it and create
-    //   another array containing JsonObjects (that are easier to work with) and
-    //   store that array in the data field
+    // Instantiate a new array depending on the data type
     if (isUserData || isReviewData || isRentData) {
-      if (isFilePath) {
+      if (isFilePath && this.isUserData) {
         this.userHashMap = new HashMap<>();
         this.userArray = new User[jsonArray.size()];
       } else {
         this.data = new JsonObject[jsonArray.size()];
       }
 
+      // Loop over the objects in the jsonArray and copy them into another array
       for (int i = 0; i < jsonArray.size(); i++) {
         JsonObject e = jsonArray.get(i).getAsJsonObject();
-        if (isFilePath) {
+        if (isFilePath && this.isUserData) {
+          // if opening a file path, turn objects into users and store
           User u = JSONConverter.jsonToUser(e);
           this.userArray[i] = u;
           this.userHashMap.put(e.get("user_id").getAsInt(), u);
@@ -94,10 +95,18 @@ public class JSONopener {
     }
   }
 
+  /**
+   * Method to retrieve the userArray field.
+   * @return - an array of users; only populated if opening a local json file of users
+   */
   public User[] getUserArray() {
     return this.userArray;
   }
 
+  /**
+   * Method to retrieve the userHashmap.
+   * @return - a hashmap of users; only populated if opening a local json file of users
+   */
   public HashMap<Integer, User> getUserHashMap() {
     return this.userHashMap;
   }

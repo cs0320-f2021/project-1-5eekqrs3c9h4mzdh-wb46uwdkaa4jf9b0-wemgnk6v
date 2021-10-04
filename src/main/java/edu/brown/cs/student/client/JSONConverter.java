@@ -10,6 +10,9 @@ import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
 
+/**
+ * Class that converts JsonObject users to User objects.
+ */
 public class JSONConverter {
 
   public static User jsonToUser(JsonObject userJson) {
@@ -25,8 +28,8 @@ public class JSONConverter {
 
         Double weight = Double.parseDouble(jsonObject.get("weight").getAsString().replace("lbs", ""));
         String[] heightArray = jsonObject.get("height").getAsString().split("'");
-        Double height = Double.parseDouble(heightArray[0]) * 12 +
-            Double.parseDouble(heightArray[1].replaceAll("[^0-9]", ""));
+        Double height = Double.parseDouble(heightArray[0]) * 12
+                + Double.parseDouble(heightArray[1].replaceAll("[^0-9]", ""));
 
         return new User(
             jsonObject.get("user_id").getAsInt(),

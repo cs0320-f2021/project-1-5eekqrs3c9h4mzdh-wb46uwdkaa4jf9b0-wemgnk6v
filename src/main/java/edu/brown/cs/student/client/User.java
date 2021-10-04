@@ -19,18 +19,34 @@ public class User implements KdElement {
   // User horoscope, a string
   private final String horoscope;
 
+  /**
+   * Method to retrieve user height.
+   * @return - user height, in inches, a double
+   */
   public Double getHeight() {
     return height;
   }
 
+  /**
+   * Method to retrieve user age.
+   * @return - user age, in years, a double
+   */
   public Double getAge() {
     return age;
   }
 
+  /**
+   * Method to retrieve user weight.
+   * @return - user weight, in pounds, a double
+   */
   public Double getWeight() {
     return weight;
   }
 
+  /**
+   * Method to retrieve user horoscope.
+   * @return - user horoscope, a string
+   */
   public String getHoroscope() {
     return horoscope;
   }
