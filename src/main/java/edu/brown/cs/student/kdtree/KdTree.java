@@ -8,16 +8,6 @@ import java.util.HashMap;
 import java.util.PriorityQueue;
 
 public class KdTree {
-  // "However, to make this data structure extensible and reusable,
-  // you should write an abstraction, using the principles above,
-  // that can handle any number of dimensions."
-
-
-  // To do in another class?
-  // - convert User list into array of 3d arrays (to3dPoint)
-  // - call buildKdTree with the array of 3d points
-  // - edit code to have some way to keep track of User IDs because
-  //    they'll be necessary for printing results of KNN
   private Node root;
   private int numDimensions;
   private PriorityQueue<Neighbor> neighbors = new PriorityQueue<Neighbor>();
@@ -27,7 +17,6 @@ public class KdTree {
     this.numDimensions = numDimensions;
   }
 
-  // private class Node has k-D point, left neighbor, right neighbor, ____
   private class Node {
     private Double[] kdPoint;
     private Node leftChild;
@@ -95,7 +84,6 @@ public class KdTree {
     KdElement middleElement = kdArray[middleNum];
 
     Node newNode = new Node(middleElement.getKdPoint(), axis, middleElement.getElementID());
-    // System.out.println(Arrays.toString(newNode.kdPoint));
     if (root == null) {
       this.root = newNode;
     }
@@ -108,44 +96,39 @@ public class KdTree {
 
   private void findKNN(Node node, Double[] target, int k) {
     if (node == null) {
-      // System.out.println("null if");
+//      System.out.println("==null node==");
       return;
     }
+//    System.out.println("ID: " + node.elementID);
+//    System.out.println("KD Point: " + Arrays.toString(node.kdPoint));
+//    System.out.println("Right Child: " + node.rightChild);
+//    System.out.println("Left Child: " + node.leftChild);
 
     double distance = node.calcDistance(target);
 
     if (neighbors.size() < k) {
-      // System.out.println("neighbors.size() < k: " + Arrays.toString(node.kdPoint));
       Neighbor newNeighbor = new Neighbor(node.kdPoint, distance, node.elementID);
       neighbors.add(newNeighbor);
-//      findKNN(node.rightChild, target, k);
-//      findKNN(node.leftChild, target, k);
     } else if (distance < neighbors.peek().distance) {
-      // System.out.println("distance<neighbors.peek().distance:" + Arrays.toString(node.kdPoint));
-//      System.out.println("leftchild: " + node.leftChild); IS NULL!!
       Neighbor newNeighbor = new Neighbor(node.kdPoint, distance, node.elementID);
       neighbors.poll();
       neighbors.add(newNeighbor);
     }
 
     int axis = node.axis;
-//    System.out.println("axis:" + axis);
     Double targetAxisVal = target[axis];
-//    System.out.println("targetAxisVal:" + targetAxisVal);
     Double nodeAxisVal = node.kdPoint[axis];
-//    System.out.println("nodeAxisVal:" + nodeAxisVal);
-//    System.out.println("neighbors.peek().distance:" + neighbors.peek().distance);
 
     if ((neighbors.size() < k)
         || (neighbors.peek().distance > (Math.abs(targetAxisVal - nodeAxisVal)))) {
-      // System.out.println("recur both: " + Arrays.toString(node.kdPoint));
+      // System.out.println("recurring on both");
       findKNN(node.rightChild, target, k);
       findKNN(node.leftChild, target, k);
     } else if (nodeAxisVal <= targetAxisVal) {
-      //System.out.println("recur right: " + Arrays.toString(node.kdPoint));
+      //System.out.println("recurring on right");
       findKNN(node.rightChild, target, k);
     } else {
-      //System.out.println("recur left: " + Arrays.toString(node.kdPoint));
+      //System.out.println("recurring on left");
       findKNN(node.leftChild, target, k);
     }
   }
@@ -153,15 +136,21 @@ public class KdTree {
   public int[] getArrayOfKnnIds(Double[] target, KdElement[] kdArray, int k) {
     buildKdTree(kdArray, 0);
     //System.out.println("=======");
+    int numNeighbors = Math.min(kdArray.length, k);
     findKNN(root, target, k);
     // TODO: need to check if target has same dimensions as tree
-    int[] orderedNeighbors = new int[k];
+    int[] orderedNeighbors = new int[numNeighbors];
+//    System.out.println("=== reverse order neighbors: ===");
     if (neighbors.size() > 0) {
-      for (int i = 0; i < k; i++) {
+      for (int i = 0; i < numNeighbors; i++) {
         // assumes neighbors.size() == k
-        int id = neighbors.poll().elementID;
+        Neighbor neigh = neighbors.poll();
+//        int id = neighbors.poll().elementID;
+        int id = neigh.elementID;
+//        System.out.println("ID: " + id);
+//        System.out.println("Distance: " + neigh.distance);
         // reverse order of priority queue so that the neighbors array is in nearest to farthest order
-        orderedNeighbors[k - 1 - i] = id;
+        orderedNeighbors[numNeighbors - 1 - i] = id;
       }
       return orderedNeighbors;
     } else {

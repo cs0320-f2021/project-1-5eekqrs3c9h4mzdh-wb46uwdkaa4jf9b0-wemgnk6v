@@ -85,7 +85,7 @@ public class User implements KdElement {
    */
   @Override
   public Double[] getKdPoint() {
-    return new Double[] {this.height, this.weight, this.age};
+    return new Double[] {this.weight, this.height, this.age};
   }
 
   /**

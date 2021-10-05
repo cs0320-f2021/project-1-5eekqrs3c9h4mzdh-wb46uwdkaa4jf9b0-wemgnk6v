@@ -23,7 +23,7 @@ public class JSONConverterTest {
     User result = new User(101, 145.0, "34b", 69.0, 27.0, "athletic", "Libra");
     User result2 = jsonConverter.jsonToUser(json);
     assertEquals(101, result2.getElementID());
-    Double[] kdPoint = {69.0, 145.0, 27.0};
+    Double[] kdPoint = {145.0, 69.0, 27.0};
     assertEquals(kdPoint, result2.getKdPoint());
     assertEquals(result.toString(), result2.toString());
   }

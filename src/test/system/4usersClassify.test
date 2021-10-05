@@ -1,0 +1,18 @@
+INPUT
+users data/project-1/4usersTest.json
+classify 4 1
+OUTPUT
+Loaded 4 users
+Capricorn: 0
+Libra: 2
+Scorpio: 1
+Pisces: 0
+Leo: 0
+Sagittarius: 1
+Virgo: 0
+Taurus: 0
+Aquarius: 0
+Aries: 0
+Gemini: 0
+Cancer: 0
+END
