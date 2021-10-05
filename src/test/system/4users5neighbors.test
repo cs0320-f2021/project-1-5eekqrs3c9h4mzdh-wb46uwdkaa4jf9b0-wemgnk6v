@@ -1,0 +1,10 @@
+INPUT
+users data/project-1/4usersTest.json
+similar 5 1
+OUTPUT
+Loaded 4 users
+1
+2
+3
+4
+END

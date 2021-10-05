@@ -1,0 +1,4 @@
+[{"user_id": "1", "weight": "100lbs", "bust_size": "34b", "height": "5' 1\"", "age": "27", "body_type": "athletic", "horoscope": "Libra"},
+{"user_id": "2", "weight": "102lbs", "bust_size": "32b", "height": "5' 1\"", "age": "27", "body_type": "petite", "horoscope": "Scorpio"},
+{"user_id": "3", "weight": "100lbs", "bust_size": "34b", "height": "5' 4\"", "age": "27", "body_type": "athletic", "horoscope": "Sagittarius"},
+{"user_id": "4", "weight": "100lbs", "bust_size": "34c", "height": "5' 1\"", "age": "33", "body_type": "pear", "horoscope": "Libra"}]
