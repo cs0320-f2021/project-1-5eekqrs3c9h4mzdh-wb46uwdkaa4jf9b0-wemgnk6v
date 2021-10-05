@@ -25,7 +25,7 @@ public class KdTree {
     private int elementID;
 
     Node(Double[] kdPoint, int axis, int elementID) {
-      // kdPoint is an array of length k
+      // kdPoint is an array of k doubles
       this.kdPoint = kdPoint;
       this.leftChild = null;
       this.rightChild = null;
@@ -55,26 +55,25 @@ public class KdTree {
 
     @Override
     public int compareTo(Neighbor neighbor) {
-      // sort in descending order
+      // sort priority queue in descending order
       return Double.compare(neighbor.distance, this.distance);
     }
   }
 
   private Node buildKdTree(KdElement[] kdArray, int depth) {
     int arrayLen = kdArray.length;
+    // if array is empty, stop building
     if (arrayLen == 0) {
       return null;
     }
-    // if array is empty return null
-    // if the array is 1 just return that array turned into a node
 
     // Select axis
     int axis = depth % numDimensions;
 
-    // Sort array of KD points by axis
+    // Sort array of KD points by values in that axis
     Arrays.sort(kdArray, Comparator.comparingDouble(o -> o.getKdPoint()[axis]));
 
-    // values that are greater than or equal to the median element are on the right side
+    // values that are greater than or equal to the median element are placed on the right side
     int middleNum = arrayLen / 2;
     int i = middleNum - 1;
     while ((i >= 0) && (kdArray[middleNum].getKdPoint()[axis] == kdArray[i].getKdPoint()[axis])) {
@@ -134,11 +133,14 @@ public class KdTree {
   }
 
   public int[] getArrayOfKnnIds(Double[] target, KdElement[] kdArray, int k) {
+    // build KD tree
     buildKdTree(kdArray, 0);
-    //System.out.println("=======");
     int numNeighbors = Math.min(kdArray.length, k);
+
+    // search KD tree
     findKNN(root, target, k);
-    // TODO: need to check if target has same dimensions as tree
+
+    // create an array in reverse order of priority queue (to print in order of nearest to farthest)
     int[] orderedNeighbors = new int[numNeighbors];
 //    System.out.println("=== reverse order neighbors: ===");
     if (neighbors.size() > 0) {
@@ -149,7 +151,6 @@ public class KdTree {
         int id = neigh.elementID;
 //        System.out.println("ID: " + id);
 //        System.out.println("Distance: " + neigh.distance);
-        // reverse order of priority queue so that the neighbors array is in nearest to farthest order
         orderedNeighbors[numNeighbors - 1 - i] = id;
       }
       return orderedNeighbors;
@@ -158,10 +159,6 @@ public class KdTree {
     }
   }
 
-  // As a User of the REPL interface, I am able to print out a horoscope comparison chart of the k
-  // most similar users [closest in Euclidean distance of weights, heights, and ages] by running:
-  // classify <k> <some_user_id>
-  // classify <k> <weight in lbs> <height in inches> <age in years>
   public void classifyUsers(Double[] target, KdElement[] kdArray, int k,
                             HashMap<Integer, User> mapIDtoUser) {
     HashMap<String, Integer> horoscopeCount = new HashMap<>() {{
