@@ -1,10 +1,5 @@
 package edu.brown.cs.student.core;
 
-import edu.brown.cs.student.client.Aggregator;
-import edu.brown.cs.student.client.JSONopener;
-import edu.brown.cs.student.client.User;
-import edu.brown.cs.student.kdtree.KdTree;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,13 +11,20 @@ import java.util.StringTokenizer;
  */
 public class Repl {
 
+  // Hashmap of available commands for the REPL
+  private final HashMap<String, CommandHandler> commands;
+
+  // A field to hold user data (user hashmap and user array)
+  private final UserData userData = new UserData();
+
   /**
    * instantiates a REPL.
    * <p>
-   * // @param commands - a map of string command names to IReplMethod objects, which
-   * are a wrapper for a method to be called
+   * @param commands - a hashmap from String -> CommandHandler that holds
+   *                 all available commands for the REPL
    */
-  public Repl() {
+  public Repl(HashMap<String, CommandHandler> commands) {
+    this.commands = commands;
   }
 
   /**
@@ -30,8 +32,7 @@ public class Repl {
    */
   public void run() {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    HashMap<Integer, User> userHashMap = null;
-    User[] userArray = null;
+
 
     while (true) { // parsing input loop
       try {
@@ -46,67 +47,8 @@ public class Repl {
         if (st.hasMoreTokens()) { // if the input is not blank, get the first token (the command)
           String command = st.nextToken();
 
-          if (command.equals("users")) {
-            String arg = st.nextToken();
-            if (arg.equals("online")) {
-              // Instantiate new Aggregator
-              Aggregator aggregator = new Aggregator();
-
-              // Load the data
-              aggregator.loadData("user");
-
-              // Store the data
-              userArray = aggregator.getUsersData();
-              userHashMap = aggregator.getUserHash();
-              System.out.println("Loaded " + userArray.length + " users");
-            } else {
-              JSONopener jsopen = new JSONopener(arg, true);
-              userArray = jsopen.getUserArray();
-              userHashMap = jsopen.getUserHashMap();
-              System.out.println("Loaded " + userArray.length + " users");
-            }
-          } else if (command.equals("similar")) {
-            int kArg = Integer.parseInt(st.nextToken());
-            String idOrWeightArgString = st.nextToken();
-            Double weightArg;
-            Double heightArg;
-            Double ageArg;
-            if (st.hasMoreTokens()) {
-              heightArg = Double.parseDouble(st.nextToken());
-              ageArg = Double.parseDouble(st.nextToken());
-              weightArg = Double.parseDouble(idOrWeightArgString);
-            } else {
-              int id = Integer.parseInt(idOrWeightArgString);
-              heightArg = userHashMap.get(id).getHeight();
-              weightArg = userHashMap.get(id).getWeight();
-              ageArg = userHashMap.get(id).getAge();
-            }
-            KdTree kdTree = new KdTree(3);
-            int[] neighborArray =
-                kdTree.getArrayOfKnnIds(new Double[] {weightArg, heightArg, ageArg}, userArray,
-                    kArg);
-            for (int id : neighborArray) {
-              System.out.println(id);
-            }
-          } else if (command.equals("classify")) {
-            int kArg = Integer.parseInt(st.nextToken());
-            String idOrWeightArgString = st.nextToken();
-            Double weightArg;
-            Double heightArg;
-            Double ageArg;
-            if (st.hasMoreTokens()) {
-              heightArg = Double.parseDouble(st.nextToken());
-              ageArg = Double.parseDouble(st.nextToken());
-              weightArg = Double.parseDouble(idOrWeightArgString);
-            } else {
-              int id = Integer.parseInt(idOrWeightArgString);
-              heightArg = userHashMap.get(id).getHeight();
-              weightArg = userHashMap.get(id).getWeight();
-              ageArg = userHashMap.get(id).getAge();
-            }
-            KdTree kdTree = new KdTree(3);
-            kdTree.classifyUsers(new Double[] {weightArg, heightArg, ageArg}, userArray, kArg,
-                userHashMap);
+          if (this.commands.containsKey(command)) {
+            this.commands.get(command).run(st, userData);
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
           }
