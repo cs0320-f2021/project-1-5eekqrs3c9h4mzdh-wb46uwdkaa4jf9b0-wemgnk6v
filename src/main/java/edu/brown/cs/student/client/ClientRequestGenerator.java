@@ -9,8 +9,7 @@ import java.net.http.HttpRequest;
 public class ClientRequestGenerator {
 
   /**
-   * Similar to the introductory GET request, but restricted to api key holders only. Try calling it without the API
-   * Key configured and see what happens!
+   * A GET request.
    * @param reqUri - the URL to access
    * @return an HttpRequest object for accessing the secured resource.
    */
@@ -22,5 +21,19 @@ public class ClientRequestGenerator {
         .build();
 
     return request;
+  }
+
+  /**
+   * A POST request.
+   * @param reqUri - the url of the post destination
+   * @param param - your cs login
+   * @return an HttpRequest object for accessing and posting to the secured resource.
+   */
+  public static HttpRequest postRequest(String reqUri, String param) {
+    String apiKey = ClientAuth.getApiKey();
+    return HttpRequest.newBuilder(URI.create(reqUri))
+        .POST(HttpRequest.BodyPublishers.ofString("{\"auth\":\"" + param + "\"}"))
+        .header("x-api-key", apiKey)
+        .build();
   }
 }
