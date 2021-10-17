@@ -23,6 +23,7 @@ public final class Main {
     commands.put("users", new Users());
     commands.put("similar", new Similar());
     commands.put("classify", new Classify());
+    commands.put("recsys_gen_groups", new RecsysGenGroups());
 
     Repl repl = new Repl(commands);
     repl.run();

@@ -56,10 +56,10 @@ public class Repl {
       } catch (IOException e) { // some kind of read error, so the repl exits
         System.out.println("ERROR: Failed parsing input.");
         break;
-      } catch (Exception e) { // some kind of read error, so the repl exits
-        System.out.println("ERROR: Failed parsing input.");
-        break;
-      }
+      } //catch (Exception e) { // some kind of read error, so the repl exits
+        //System.out.println("ERROR: Failed parsing input.");
+        //break;
+      //}
     }
     try {
       reader.close();
