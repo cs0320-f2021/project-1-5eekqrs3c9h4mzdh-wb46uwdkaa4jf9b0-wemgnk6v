@@ -15,7 +15,7 @@ public class Repl {
   private final HashMap<String, CommandHandler> commands;
 
   // A field to hold user data (user hashmap and user array)
-  private final UserData userData = new UserData();
+  private final StudentData studentData = new StudentData();
 
   /**
    * instantiates a REPL.
@@ -48,7 +48,7 @@ public class Repl {
           String command = st.nextToken();
           
           if (this.commands.containsKey(command)) {
-            this.commands.get(command).run(st, userData);
+            this.commands.get(command).run(st, studentData);
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");
           }

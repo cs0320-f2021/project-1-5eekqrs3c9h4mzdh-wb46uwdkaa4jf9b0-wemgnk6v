@@ -1,6 +1,10 @@
 package edu.brown.cs.student.orm;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Skills {
   private String id;
@@ -40,5 +44,16 @@ public class Skills {
 
   public String getId() {
     return id;
+  }
+
+  public List<Double> toList() {
+    List<Double> lst = new ArrayList<>();
+    lst.add(commenting);
+    lst.add(testing);
+    lst.add(OOP);
+    lst.add(algorithms);
+    lst.add(teamwork);
+    lst.add(frontend);
+    return lst;
   }
 }

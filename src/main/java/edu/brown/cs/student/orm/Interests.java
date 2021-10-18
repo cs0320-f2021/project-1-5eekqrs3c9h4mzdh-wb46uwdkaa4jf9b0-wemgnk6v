@@ -22,4 +22,8 @@ public class Interests {
   public String getId() {
     return id;
   }
+
+  public String getInterest() {
+    return interest;
+  }
 }
