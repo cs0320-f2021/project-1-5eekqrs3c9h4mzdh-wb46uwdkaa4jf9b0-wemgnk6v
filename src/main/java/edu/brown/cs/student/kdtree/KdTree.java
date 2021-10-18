@@ -5,16 +5,21 @@ import edu.brown.cs.student.client.User;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class KdTree {
   private Node root;
   private int numDimensions;
   private PriorityQueue<Neighbor> neighbors = new PriorityQueue<Neighbor>();
+  private int len;
 
-  public KdTree(int numDimensions) {
+  public KdTree(int numDimensions, KdElement[] kdArray) {
     this.root = null;
     this.numDimensions = numDimensions;
+    this.len = kdArray.length;
+    // build KD tree
+    buildKdTree(kdArray, 0);
   }
 
   private class Node {
@@ -132,10 +137,9 @@ public class KdTree {
     }
   }
 
-  public int[] getArrayOfKnnIds(Double[] target, KdElement[] kdArray, int k) {
-    // build KD tree
-    buildKdTree(kdArray, 0);
-    int numNeighbors = Math.min(kdArray.length, k);
+  public int[] getArrayOfKnnIds(Double[] target, int k) {
+
+    int numNeighbors = Math.min(this.len, k);
 
     // search KD tree
     findKNN(root, target, k);
@@ -159,7 +163,7 @@ public class KdTree {
     }
   }
 
-  public void classifyUsers(Double[] target, KdElement[] kdArray, int k,
+  public void classifyUsers(Double[] target, int k,
                             HashMap<Integer, User> mapIDtoUser) {
     HashMap<String, Integer> horoscopeCount = new HashMap<>() {{
       put("Aries", 0);
@@ -175,7 +179,7 @@ public class KdTree {
       put("Aquarius", 0);
       put("Pisces", 0);
     }};
-    int[] similarID = getArrayOfKnnIds(target, kdArray, k);
+    int[] similarID = getArrayOfKnnIds(target, k);
     for (int ID : similarID) {
       String horoscope = mapIDtoUser.get(ID).getHoroscope();
       if (horoscopeCount.containsKey(horoscope)) {

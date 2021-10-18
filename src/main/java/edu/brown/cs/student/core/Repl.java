@@ -46,7 +46,7 @@ public class Repl {
 
         if (st.hasMoreTokens()) { // if the input is not blank, get the first token (the command)
           String command = st.nextToken();
-
+          
           if (this.commands.containsKey(command)) {
             this.commands.get(command).run(st, userData);
           } else { // command unrecognized
