@@ -2,6 +2,7 @@ package edu.brown.cs.student.client;
 
 import edu.brown.cs.student.recommender.Item;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -36,7 +37,14 @@ public class Student implements Item {
 
   @Override
   public Double[] getKdPoint() {
-    return new Double[0];
+    List<Double> KdList = new ArrayList<Double>();
+    KdList.add(meetType);
+    KdList.add(experience);
+    for (String key : skills.keySet()) {
+      KdList.add(skills.get(key));
+    }
+    Double[] KdArray = (Double[]) KdList.toArray();
+    return KdArray;
   }
 
   @Override

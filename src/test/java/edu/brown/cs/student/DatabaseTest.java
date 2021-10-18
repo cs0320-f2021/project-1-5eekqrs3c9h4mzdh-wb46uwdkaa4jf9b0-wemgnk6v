@@ -1,5 +1,6 @@
 package edu.brown.cs.student;
 
+import edu.brown.cs.student.client.Student;
 import edu.brown.cs.student.orm.Database;
 import edu.brown.cs.student.orm.Interests;
 import edu.brown.cs.student.orm.Negative;
@@ -33,13 +34,23 @@ public class DatabaseTest {
     }
     Map<String, String> query = new HashMap<>();
     query.put("id", "2");
-    List<Skills> selectSkills = db.select(Skills.class, query);
-    System.out.println(selectSkills.get(0));
-    List<Interests> selectInterests = db.select(Interests.class, query);
-    System.out.println(selectInterests.get(0));
-    List<Positive> selectPositive = db.select(Positive.class, query);
-    System.out.println(selectPositive.get(0));
-    List<Negative> selectNegative = db.select(Negative.class, query);
-    System.out.println(selectNegative.get(0));
+//    List<Skills> selectSkills = db.select(Skills.class, query);
+//    System.out.println(selectSkills.get(0));
+//    List<Interests> selectInterests = db.select(Interests.class, query);
+//    System.out.println(selectInterests.get(0));
+//    List<Positive> selectPositive = db.select(Positive.class, query);
+//    System.out.println(selectPositive.get(0));
+//    List<Negative> selectNegative = db.select(Negative.class, query);
+//    System.out.println(selectNegative.get(0));
+    Map<Integer, Student> idsToStudents = new HashMap<>();
+    for (int id = 0; id <= 61; id++) {
+      Map<String, String> queryMap = new HashMap<>();
+      queryMap.put("id", String.valueOf(id));
+      Student currStudent = new Student();
+      List<Skills> selectSkills = db.select(Skills.class, queryMap);
+      List<Interests> selectInterests = db.select(Interests.class, query);
+      List<Positive> selectPositive = db.select(Positive.class, query);
+      List<Negative> selectNegative = db.select(Negative.class, query);
+    }
   }
 }
