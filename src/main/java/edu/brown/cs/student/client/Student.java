@@ -15,7 +15,7 @@ public class Student implements Item {
   private String grade; // Unused
   private Double experience; // KD
   private String horoscope; // Unused
-  private Set<String> meetTime; // Review
+  private Set<String> meetTime; // BLOOM
   private String lang; // BLOOM
   private Set<String> groups; // BLOOM?
   private Boolean preferGroup;
@@ -80,7 +80,25 @@ public class Student implements Item {
 
   @Override
   public List<String> getVectorRepresentation() {
-    return null;
+    List<String> vectorRepresentation = new ArrayList<>();
+    for (String i : interests) {
+      vectorRepresentation.add(i);
+    }
+    for (String i : pos) {
+      vectorRepresentation.add(i);
+    }
+    for (String i : neg) {
+      vectorRepresentation.add(i);
+    }
+    for (String i : meetTime) {
+      vectorRepresentation.add(i);
+    }
+    if (preferGroup) {
+      for (String i : groups) {
+        vectorRepresentation.add(i);
+      }
+    }
+    return vectorRepresentation;
   }
 
   @Override
