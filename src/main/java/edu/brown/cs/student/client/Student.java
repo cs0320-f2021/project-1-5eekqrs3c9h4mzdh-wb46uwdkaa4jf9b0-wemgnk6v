@@ -18,12 +18,65 @@ public class Student implements Item {
   private Set<String> meetTime; // Review
   private String lang; // BLOOM
   private Set<String> groups; // BLOOM?
+  private Boolean preferGroup;
 
   // from ORM
   private Set<String> interests; // BLOOM
   private Set<String> neg; // BLOOM
   private Set<String> pos; // BLOOM
   private HashMap<String, Double> skills; // KD
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public void setMeetType(Double meetType) {
+    this.meetType = meetType;
+  }
+
+  public void setGrade(String grade) {
+    this.grade = grade;
+  }
+
+  public void setExperience(Double experience) {
+    this.experience = experience;
+  }
+
+  public void setHoroscope(String horoscope) {
+    this.horoscope = horoscope;
+  }
+
+  public void setMeetTime(Set<String> meetTime) {
+    this.meetTime = meetTime;
+  }
+
+  public void setLang(String lang) {
+    this.lang = lang;
+  }
+
+  public void setGroups(Set<String> groups) {
+    this.groups = groups;
+  }
+
+  public void setInterests(Set<String> interests) {
+    this.interests = interests;
+  }
+
+  public void setNeg(Set<String> neg) {
+    this.neg = neg;
+  }
+
+  public void setPos(Set<String> pos) {
+    this.pos = pos;
+  }
+
+  public void setSkills(HashMap<String, Double> skills) {
+    this.skills = skills;
+  }
 
   @Override
   public List<String> getVectorRepresentation() {
@@ -50,5 +103,10 @@ public class Student implements Item {
   @Override
   public int getElementID() {
     return id;
+  }
+
+  @Override
+  public String toString() {
+    return "Student: " + id;
   }
 }

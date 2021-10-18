@@ -1,9 +1,11 @@
 package edu.brown.cs.student.core;
 
 import edu.brown.cs.student.client.Aggregator;
+import edu.brown.cs.student.client.IntegrationJSONopener;
 import edu.brown.cs.student.client.JSONopener;
 import edu.brown.cs.student.kdtree.KdTree;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -151,5 +153,8 @@ class RecsysGenGroups implements CommandHandler {
     for (List<Student> group : groupMaker.makeGroups()) {
       System.out.println(group.toString());
     }
+
+    System.out.println(Arrays.toString(new IntegrationJSONopener("abredvik").getData()));
+
   }
 }
