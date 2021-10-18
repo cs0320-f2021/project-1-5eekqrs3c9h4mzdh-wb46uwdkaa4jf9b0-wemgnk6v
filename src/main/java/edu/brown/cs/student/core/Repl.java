@@ -81,9 +81,9 @@ public class Repl {
               weightArg = userHashMap.get(id).getWeight();
               ageArg = userHashMap.get(id).getAge();
             }
-            KdTree kdTree = new KdTree(3);
+            KdTree kdTree = new KdTree(3, userArray);
             int[] neighborArray =
-                kdTree.getArrayOfKnnIds(new Double[] {weightArg, heightArg, ageArg}, userArray,
+                kdTree.getArrayOfKnnIds(new Double[] {weightArg, heightArg, ageArg},
                     kArg);
             for (int id : neighborArray) {
               System.out.println(id);
@@ -104,8 +104,8 @@ public class Repl {
               weightArg = userHashMap.get(id).getWeight();
               ageArg = userHashMap.get(id).getAge();
             }
-            KdTree kdTree = new KdTree(3);
-            kdTree.classifyUsers(new Double[] {weightArg, heightArg, ageArg}, userArray, kArg,
+            KdTree kdTree = new KdTree(3, userArray);
+            kdTree.classifyUsers(new Double[] {weightArg, heightArg, ageArg}, kArg,
                 userHashMap);
           } else { // command unrecognized
             System.out.println("ERROR: Unrecognized command.");

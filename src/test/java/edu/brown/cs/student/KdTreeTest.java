@@ -19,12 +19,12 @@ public class KdTreeTest {
     User user1 = new User(101, 50.0, "32B", 62.0, 20.0, "type1", "Gemini");
     KdElement[] kdArrayEmpty = {};
     KdElement[] kdArraySimple = {user0, user1};
-    KdTree tree1 = new KdTree(3);
-    assertEquals(100, tree1.getArrayOfKnnIds(threeD, kdArraySimple, 1)[0], 0.01);
-    assertEquals(101, tree1.getArrayOfKnnIds(threeD, kdArraySimple, 2)[1], 0.01);
-    assertEquals(101, tree1.getArrayOfKnnIds(threeD2, kdArraySimple, 1)[0], 0.01);
-    KdTree tree2 = new KdTree(3);
-    assertEquals(0, tree2.getArrayOfKnnIds(threeD2, kdArrayEmpty, 1).length, 0.01); // Empty Case
+    KdTree tree1 = new KdTree(3, kdArraySimple);
+    assertEquals(100, tree1.getArrayOfKnnIds(threeD, 1)[0], 0.01);
+    assertEquals(101, tree1.getArrayOfKnnIds(threeD, 2)[1], 0.01);
+    assertEquals(101, tree1.getArrayOfKnnIds(threeD2, 1)[0], 0.01);
+    KdTree tree2 = new KdTree(3, kdArrayEmpty);
+    assertEquals(0, tree2.getArrayOfKnnIds(threeD2, 1).length, 0.01); // Empty Case
   }
 
   @Test
@@ -40,7 +40,7 @@ public class KdTreeTest {
       put(101, user1);
     }};
     KdElement[] kdArraySimple = {user0, user1};
-    KdTree tree1 = new KdTree(3);
-    tree1.classifyUsers(threeD2, kdArraySimple, 1, userToID);
+    KdTree tree1 = new KdTree(3, kdArraySimple);
+    tree1.classifyUsers(threeD2, 1, userToID);
   }
 }
