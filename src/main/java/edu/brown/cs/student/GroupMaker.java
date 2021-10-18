@@ -1,4 +1,6 @@
-package edu.brown.cs.student.core;
+package edu.brown.cs.student;
+
+import edu.brown.cs.student.client.Student;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,7 +29,7 @@ public class GroupMaker {
         groupedStudents.add(current);
         List<Student> thisGroup = new ArrayList<>(teamSize);
         thisGroup.add(current);
-        for (Student neighbor : current.neighbors) {
+        for (Student neighbor : current.getNeighbors()) {
           if (!groupedStudents.contains(neighbor) && thisGroup.size() < teamSize) {
             groupedStudents.add(neighbor);
             thisGroup.add(neighbor);

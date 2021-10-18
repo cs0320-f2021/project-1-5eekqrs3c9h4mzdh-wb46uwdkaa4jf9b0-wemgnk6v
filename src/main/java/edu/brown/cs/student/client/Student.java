@@ -2,10 +2,7 @@ package edu.brown.cs.student.client;
 
 import edu.brown.cs.student.recommender.Item;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Student implements Item {
 
@@ -15,16 +12,18 @@ public class Student implements Item {
   private String grade; // Unused
   private Double experience; // KD
   private String horoscope; // Unused
-  private Set<String> meetTime; // Review
+  private String[] meetTime; // Review
   private String lang; // BLOOM
-  private Set<String> groups; // BLOOM?
+  private String[] groups; // BLOOM?
   private Boolean preferGroup;
 
   // from ORM
-  private Set<String> interests; // BLOOM
-  private Set<String> neg; // BLOOM
-  private Set<String> pos; // BLOOM
+  private List<String> interests; // BLOOM
+  private List<String> neg; // BLOOM
+  private List<String> pos; // BLOOM
   private HashMap<String, Double> skills; // KD
+
+  private List<Student> neighbors;
 
   public void setId(int id) {
     this.id = id;
@@ -50,7 +49,7 @@ public class Student implements Item {
     this.horoscope = horoscope;
   }
 
-  public void setMeetTime(Set<String> meetTime) {
+  public void setMeetTime(String[] meetTime) {
     this.meetTime = meetTime;
   }
 
@@ -58,24 +57,36 @@ public class Student implements Item {
     this.lang = lang;
   }
 
-  public void setGroups(Set<String> groups) {
+  public void setGroups(String[] groups) {
     this.groups = groups;
   }
 
-  public void setInterests(Set<String> interests) {
+  public void setPreferGroup(Boolean preferGroup) {
+    this.preferGroup = preferGroup;
+  }
+
+  public void setInterests(List<String> interests) {
     this.interests = interests;
   }
 
-  public void setNeg(Set<String> neg) {
+  public void setNeg(List<String> neg) {
     this.neg = neg;
   }
 
-  public void setPos(Set<String> pos) {
+  public void setPos(List<String> pos) {
     this.pos = pos;
   }
 
   public void setSkills(HashMap<String, Double> skills) {
     this.skills = skills;
+  }
+
+  public List<Student> getNeighbors() {
+    return neighbors;
+  }
+
+  public void setNeighbors(List<Student> neighbors) {
+    this.neighbors = neighbors;
   }
 
   @Override
@@ -107,6 +118,6 @@ public class Student implements Item {
 
   @Override
   public String toString() {
-    return "Student: " + id;
+    return "Student: " + name;
   }
 }
