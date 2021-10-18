@@ -1,6 +1,9 @@
 package edu.brown.cs.student;
 
 import edu.brown.cs.student.orm.Database;
+import edu.brown.cs.student.orm.Interests;
+import edu.brown.cs.student.orm.Negative;
+import edu.brown.cs.student.orm.Positive;
 import edu.brown.cs.student.orm.Skills;
 import org.junit.Test;
 
@@ -12,6 +15,10 @@ import java.util.Map;
 
 public class DatabaseTest {
 
+  /*
+  This test reads in the database, then writes the selection to a list of the datatype. Try running
+  it to print out the first result in each list.
+   */
   @Test
   public void skillsTest() throws SQLException, InvocationTargetException, InstantiationException,
       IllegalAccessException, NoSuchMethodException {
@@ -26,7 +33,13 @@ public class DatabaseTest {
     }
     Map<String, String> query = new HashMap<>();
     query.put("id", "2");
-    List<Skills> selection = db.select(Skills.class, query);
-    System.out.println(selection.get(0));
+    List<Skills> selectSkills = db.select(Skills.class, query);
+    System.out.println(selectSkills.get(0));
+    List<Interests> selectInterests = db.select(Interests.class, query);
+    System.out.println(selectInterests.get(0));
+    List<Positive> selectPositive = db.select(Positive.class, query);
+    System.out.println(selectPositive.get(0));
+    List<Negative> selectNegative = db.select(Negative.class, query);
+    System.out.println(selectNegative.get(0));
   }
 }

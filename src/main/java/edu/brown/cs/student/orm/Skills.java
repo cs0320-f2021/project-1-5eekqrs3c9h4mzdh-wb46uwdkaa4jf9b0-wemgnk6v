@@ -37,4 +37,8 @@ public class Skills {
         ", frontend='" + frontend + '\'' +
         '}';
   }
+
+  public String getId() {
+    return id;
+  }
 }

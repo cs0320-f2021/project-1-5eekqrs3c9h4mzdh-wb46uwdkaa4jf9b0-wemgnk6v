@@ -10,20 +10,19 @@ public class Student implements Item {
 
   private int id;
   private String name;
-  private Double meetType;
+  private Double meetType; // KD
   private String grade; // Unused
-  private Double experience;
-  private String horoscope;
+  private Double experience; // KD
+  private String horoscope; // Unused
   private Set<String> meetTime; // Review
-  private String lang;
-  private Set<String> groups;
+  private String lang; // BLOOM
+  private Set<String> groups; // BLOOM?
 
   // from ORM
-  private int id2;
-  private Set<String> interests;
-  private Set<String> neg;
-  private Set<String> pos;
-  private HashMap<String, Double> skills;
+  private Set<String> interests; // BLOOM
+  private Set<String> neg; // BLOOM
+  private Set<String> pos; // BLOOM
+  private HashMap<String, Double> skills; // KD
 
   @Override
   public List<String> getVectorRepresentation() {
@@ -42,6 +41,6 @@ public class Student implements Item {
 
   @Override
   public int getElementID() {
-    return 0;
+    return id;
   }
 }
