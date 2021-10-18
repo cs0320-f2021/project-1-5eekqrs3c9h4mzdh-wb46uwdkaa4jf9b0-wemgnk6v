@@ -1,17 +1,16 @@
 package edu.brown.cs.student;
 
-import edu.brown.cs.student.client.Student;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
 public class GroupMaker {
 
-  public List<Student> students;
+  public HashMap<Integer, List<Integer>> students;
   public int teamSize;
 
-  public GroupMaker(int teamSize, List<Student> students) {
+  public GroupMaker(int teamSize, HashMap<Integer, List<Integer>> students) {
     this.teamSize = teamSize;
     this.students = students;
   }
@@ -19,17 +18,17 @@ public class GroupMaker {
   // ASSUMPTION: EACH STUDENT'S NEAREST NEIGHBORS CONTAINS ALL STUDENTS,
   //             ORDERED IN TERMS OF BEST PAIRING (WITH ITSELF FIRST, OBVIOUSLY)
 
-  public List<List<Student>> makeGroups() {
-    HashSet<Student> groupedStudents = new HashSet<>(students.size());
+  public List<List<Integer>> makeGroups() {
+    HashSet<Integer> groupedStudents = new HashSet<>(students.size());
 
-    List<List<Student>> groups = new ArrayList<>(students.size() / teamSize);
+    List<List<Integer>> groups = new ArrayList<>(students.size() / teamSize);
 
-    for (Student current : students) {
+    for (Integer current : students.keySet()) {
       if (!groupedStudents.contains(current)) {
         groupedStudents.add(current);
-        List<Student> thisGroup = new ArrayList<>(teamSize);
+        List<Integer> thisGroup = new ArrayList<>(teamSize);
         thisGroup.add(current);
-        for (Student neighbor : current.getNeighbors()) {
+        for (Integer neighbor : students.get(current)) {
           if (!groupedStudents.contains(neighbor) && thisGroup.size() < teamSize) {
             groupedStudents.add(neighbor);
             thisGroup.add(neighbor);

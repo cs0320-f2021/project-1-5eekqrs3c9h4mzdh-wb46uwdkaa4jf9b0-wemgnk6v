@@ -8,7 +8,6 @@ import java.util.HashMap;
 public class StudentData {
   private HashMap<Integer, Student> studentHashMap = null;
   private Student[] studentArray = null;
-  private IntegratedRecommender recommender = null;
 
   public StudentData() { }
 
@@ -26,13 +25,5 @@ public class StudentData {
 
   public void setStudentArray(Student[] studentArray) {
     this.studentArray = studentArray;
-  }
-
-  public IntegratedRecommender getRecommender() {
-    return recommender;
-  }
-
-  public void setRecommender(IntegratedRecommender recommender) {
-    this.recommender = recommender;
   }
 }
