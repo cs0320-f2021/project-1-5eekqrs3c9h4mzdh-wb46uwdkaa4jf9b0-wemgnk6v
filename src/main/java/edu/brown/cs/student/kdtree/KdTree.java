@@ -1,11 +1,11 @@
 package edu.brown.cs.student.kdtree;
 
 import edu.brown.cs.student.client.User;
+import edu.brown.cs.student.recommender.Item;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.PriorityQueue;
 
 public class KdTree {
@@ -14,7 +14,7 @@ public class KdTree {
   private PriorityQueue<Neighbor> neighbors = new PriorityQueue<Neighbor>();
   private int len;
 
-  public KdTree(int numDimensions, KdElement[] kdArray) {
+  public KdTree(int numDimensions, Item[] kdArray) {
     this.root = null;
     this.numDimensions = numDimensions;
     this.len = kdArray.length;
@@ -65,7 +65,7 @@ public class KdTree {
     }
   }
 
-  private Node buildKdTree(KdElement[] kdArray, int depth) {
+  private Node buildKdTree(Item[] kdArray, int depth) {
     int arrayLen = kdArray.length;
     // if array is empty, stop building
     if (arrayLen == 0) {
@@ -85,7 +85,7 @@ public class KdTree {
       middleNum = i;
       i = i - 1;
     }
-    KdElement middleElement = kdArray[middleNum];
+    Item middleElement = kdArray[middleNum];
 
     Node newNode = new Node(middleElement.getKdPoint(), axis, middleElement.getElementID());
     if (root == null) {
