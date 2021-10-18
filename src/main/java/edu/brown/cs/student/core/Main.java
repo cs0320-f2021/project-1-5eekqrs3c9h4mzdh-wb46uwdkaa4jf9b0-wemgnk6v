@@ -20,9 +20,11 @@ public final class Main {
 
     // Hashmap of commands
     HashMap<String, CommandHandler> commands = new HashMap<>();
-    commands.put("users", new Users());
-    commands.put("similar", new Similar());
-    commands.put("classify", new Classify());
+//    commands.put("users", new Users());
+//    commands.put("similar", new Similar());
+//    commands.put("classify", new Classify());
+    commands.put("recsys_rec", new RecsysRecs());
+    commands.put("recsys_load", new RecsysLoadResponses());
     commands.put("recsys_gen_groups", new RecsysGenGroups());
 
     Repl repl = new Repl(commands);

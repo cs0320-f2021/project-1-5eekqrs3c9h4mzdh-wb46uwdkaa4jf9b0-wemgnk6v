@@ -19,7 +19,7 @@ public class IntegrationJSONopener {
   /**
    * Constructor for an IntegrationJSONopener.
    */
-  public IntegrationJSONopener(String csLogin) {
+  public IntegrationJSONopener() {
 
     // Create a Gson instance
     Gson gson = new Gson();
@@ -31,7 +31,7 @@ public class IntegrationJSONopener {
     JsonArray jsonArray =
         gson.fromJson(
             client.makeRequest(
-                ClientRequestGenerator.postRequest(url, csLogin)), JsonArray.class);
+                ClientRequestGenerator.postRequest(url, "abredvik")), JsonArray.class);
 
     this.data = new Student[jsonArray.size()];
 
@@ -48,12 +48,17 @@ public class IntegrationJSONopener {
       } else {
         student.setMeetType(100.0);
       }
+      student.setGrade(jsonStudent.get("grade").getAsString());
+      student.setExperience(jsonStudent.get("years_of_experience").getAsDouble());
+      student.setHoroscope(jsonStudent.get("horoscope").getAsString());
+      student.setMeetTime(jsonStudent.get("meeting_times").getAsString().split("; "));
+      student.setLang(jsonStudent.get("preferred_language").getAsString());
+      student.setGroups(jsonStudent.get("marginalized_groups").getAsString().split(", "));
+      student.setPreferGroup(jsonStudent.get("prefer_group").getAsString().equals("Yes"));
 
-
-
+      studentHashMap.put(student.getId(), student);
 
       this.data[i] = student;
-
     }
   }
 
@@ -64,5 +69,9 @@ public class IntegrationJSONopener {
    */
   public Student[] getData() {
     return data.clone();
+  }
+
+  public HashMap<Integer, Student> getStudentHashMap() {
+    return studentHashMap;
   }
 }
