@@ -44,31 +44,43 @@ public class DatabaseTest {
 //    List<Negative> selectNegative = db.select(Negative.class, query);
 //    System.out.println(selectNegative.get(0));
     List<Map<String, List<?>>> listORMData = new ArrayList<>();
-    for (int id = 0; id <= 61; id++) {
+    for (int id = 1; id <= 61; id++) {
       Map<String, String> queryMap = new HashMap<>();
       queryMap.put("id", String.valueOf(id));
-      Map<String, List<?>> currData = new HashMap<String, List<>>();
+      Map<String, List<?>> currData = new HashMap<String, List<?>>();
       List<Skills> selectSkills = db.select(Skills.class, queryMap);
-      currData.put("skills", selectSkills.get(0).toList()); // Insert skills list
+      if (selectSkills.size() > 0) {
+        currData.put("skills", selectSkills.get(0).toList()); // Insert skills list
+      } else currData.put("skills", new ArrayList<>());
 
       List<Interests> selectInterests = db.select(Interests.class, queryMap);
       List<String> currInterest = new ArrayList<>();
-      for (Interests interest : selectInterests) {
-        currInterest.add(interest.getInterest());
-      }
-      currData.put("interests", currInterest); // Insert Interests list
 
       List<Positive> selectPositive = db.select(Positive.class, queryMap);
       List<String> currPositive = new ArrayList<>();
-      for (Positive pos : selectPositive) {
-        currPositive.add(pos.getTrait());
-      }
-      currData.put("pos", currPositive); // Insert positive list
+
 
       List<Negative> selectNegative = db.select(Negative.class, queryMap);
       List<String> currNegative = new ArrayList<>();
-      for (Negative neg : selectNegative) {
-        currNegative.add(neg.getTrait());
+
+      if (selectInterests.size() > 0) {
+        for (Interests interest : selectInterests) {
+          currInterest.add(interest.getInterest());
+        }
+      }
+      currData.put("interests", currInterest); // Insert Interests list
+
+      if (selectPositive.size() > 0) {
+        for (Positive pos : selectPositive) {
+          currPositive.add(pos.getTrait());
+        }
+      }
+        currData.put("pos", currPositive); // Insert positive list
+
+      if (selectPositive.size() > 0) {
+        for (Negative neg : selectNegative) {
+          currNegative.add(neg.getTrait());
+        }
       }
       currData.put("neg", currNegative); // Insert negative list
 
