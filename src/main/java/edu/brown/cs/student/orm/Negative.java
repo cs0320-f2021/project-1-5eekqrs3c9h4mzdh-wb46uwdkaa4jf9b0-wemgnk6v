@@ -22,5 +22,9 @@ public class Negative {
   public String getId() {
     return id;
   }
+
+  public String getTrait() {
+    return trait;
+  }
 }
 
