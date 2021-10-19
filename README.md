@@ -48,4 +48,13 @@ Data was taken from two sources: the integration API and integration SQLite.
 
 We decided to handle preferences with mostly matching similar traits, and sometimes matching inverse traits.
 
+
+###REPL
+A software engineer can easily add and remove commands from the REPL without editing the
+REPL code itself. Adding a command consists of:
+- Creating a class that implements the CommandHandler interface, which requires a run() method.
+All code to be executed should be placed within the run() method.
+- Adding the command to the _commands_ Hashmap in the Main class. Simply use .put() followed by
+the REPL command (a string) and the class that was created above.
+- Similarly, to remove a command, simply remove it from the _commands_ Hashmap.
 ****
