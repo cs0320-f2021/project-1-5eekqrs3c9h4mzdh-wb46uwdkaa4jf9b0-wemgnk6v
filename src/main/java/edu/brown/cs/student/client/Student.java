@@ -21,7 +21,7 @@ public class Student implements Item {
   private List<String> interests; // BLOOM
   private List<String> neg; // BLOOM
   private List<String> pos; // BLOOM
-  private HashMap<String, Double> skills; // KD
+  private List<Double> skills; // KD
 
   private List<Student> neighbors;
 
@@ -77,7 +77,7 @@ public class Student implements Item {
     this.pos = pos;
   }
 
-  public void setSkills(HashMap<String, Double> skills) {
+  public void setSkills(List<Double> skills) {
     this.skills = skills;
   }
 
