@@ -21,7 +21,8 @@ import java.util.StringTokenizer;
 public interface CommandHandler {
   /**
    * Method that runs the desired code when a user types a command.
-   * @param st - a StringTokenizer containing the arguments of the user's command
+   *
+   * @param st          - a StringTokenizer containing the arguments of the user's command
    * @param studentData - a variable that holds two fields for the command to access
    */
   void run(StringTokenizer st, StudentData studentData);
@@ -129,7 +130,7 @@ class RecsysLoadResponses implements CommandHandler {
     IntegrationORMopener ORMData = new IntegrationORMopener(studentHashMap);
     try {
       studentHashMap = ORMData.addORMData();
-      
+
       studentData.setStudentArray(studentArray);
       studentData.setStudentHashMap(studentHashMap);
     } catch (SQLException e) {
@@ -170,7 +171,8 @@ class RecsysRecs implements CommandHandler {
 
 class RecsysGenGroups implements CommandHandler {
 
-  RecsysGenGroups() { }
+  RecsysGenGroups() {
+  }
 
   public void run(StringTokenizer st, StudentData studentData) {
 
@@ -180,7 +182,7 @@ class RecsysGenGroups implements CommandHandler {
 
     HashMap<Integer, List<Integer>> neighbors = new HashMap<>(studentData.getStudentArray().length);
 
-    for (Student student : studentData.getStudentArray()) {
+    for (Student student : studentData.getStudentHashMap().values()) {
       neighbors.put(
           student.getId(),
           recommender.getTopKRecommendationIDs(
