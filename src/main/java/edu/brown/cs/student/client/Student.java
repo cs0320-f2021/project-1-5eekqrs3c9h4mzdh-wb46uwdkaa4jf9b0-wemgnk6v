@@ -18,10 +18,10 @@ public class Student implements Item {
   private Boolean preferGroup;
 
   // from ORM
-  private List<String> interests = Collections.emptyList(); // BLOOM
-  private List<String> neg = Collections.emptyList(); // BLOOM
-  private List<String> pos = Collections.emptyList(); // BLOOM
-  private HashMap<String, Double> skills = new HashMap<>(); // KD
+  private List<String> interests; // BLOOM
+  private List<String> neg; // BLOOM
+  private List<String> pos; // BLOOM
+  private List<Double> skills; // KD
 
   private List<Student> neighbors;
 
@@ -77,7 +77,7 @@ public class Student implements Item {
     this.pos = pos;
   }
 
-  public void setSkills(HashMap<String, Double> skills) {
+  public void setSkills(List<Double> skills) {
     this.skills = skills;
   }
 
@@ -122,8 +122,8 @@ public class Student implements Item {
     List<Double> KdList = new ArrayList<Double>();
     KdList.add(meetType);
     KdList.add(experience);
-    for (String key : skills.keySet()) {
-      KdList.add(skills.get(key));
+    for (Double skill : this.skills) {
+      KdList.add(skill);
     }
     Double[] KdArray = KdList.toArray(new Double[KdList.size()]);
     return KdArray;
@@ -134,8 +134,29 @@ public class Student implements Item {
     return id;
   }
 
+//  @Override
+//  public String toString() {
+//    return "Student: " + name;
+//  }
+
   @Override
   public String toString() {
-    return "Student: " + id;
+    return "Student{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", meetType=" + meetType +
+        ", grade='" + grade + '\'' +
+        ", experience=" + experience +
+        ", horoscope='" + horoscope + '\'' +
+        ", meetTime=" + Arrays.toString(meetTime) +
+        ", lang='" + lang + '\'' +
+        ", groups=" + Arrays.toString(groups) +
+        ", preferGroup=" + preferGroup +
+        ", interests=" + interests +
+        ", neg=" + neg +
+        ", pos=" + pos +
+        ", skills=" + skills +
+        ", neighbors=" + neighbors +
+        '}';
   }
 }

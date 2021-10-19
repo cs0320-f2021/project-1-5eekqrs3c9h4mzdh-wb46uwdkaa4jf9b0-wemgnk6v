@@ -17,7 +17,6 @@ public class Skills {
   private Double frontend;
 
   public Skills(Map<String, String> map) {
-    System.out.println(map.keySet());
     this.id = map.get("id");
     this.name = map.get("name");
     this.commenting = Double.parseDouble(map.get("commenting"));

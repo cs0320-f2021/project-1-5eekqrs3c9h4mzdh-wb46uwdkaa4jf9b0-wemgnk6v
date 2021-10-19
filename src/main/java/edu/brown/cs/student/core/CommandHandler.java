@@ -3,10 +3,13 @@ package edu.brown.cs.student.core;
 import edu.brown.cs.student.GroupMaker;
 import edu.brown.cs.student.client.Aggregator;
 import edu.brown.cs.student.client.IntegrationJSONopener;
+import edu.brown.cs.student.client.IntegrationORMopener;
 import edu.brown.cs.student.client.JSONopener;
 import edu.brown.cs.student.client.Student;
 import edu.brown.cs.student.recommender.IntegratedRecommender;
 
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -123,8 +126,23 @@ class RecsysLoadResponses implements CommandHandler {
     Student[] studentArray = apiData.getData();
     HashMap<Integer, Student> studentHashMap = apiData.getStudentHashMap();
 
-    studentData.setStudentArray(studentArray);
-    studentData.setStudentHashMap(studentHashMap);
+    IntegrationORMopener ORMData = new IntegrationORMopener(studentHashMap);
+    try {
+      studentHashMap = ORMData.addORMData();
+      
+      studentData.setStudentArray(studentArray);
+      studentData.setStudentHashMap(studentHashMap);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    }
 
     System.out.println("Loaded Recommender with " + studentArray.length + " students.");
   }
