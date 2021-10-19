@@ -125,9 +125,13 @@ class RecsysLoadResponses implements CommandHandler {
     IntegrationJSONopener apiData = new IntegrationJSONopener();
     Student[] studentArray = apiData.getData();
     HashMap<Integer, Student> studentHashMap = apiData.getStudentHashMap();
+
     IntegrationORMopener ORMData = new IntegrationORMopener(studentHashMap);
     try {
       studentHashMap = ORMData.addORMData();
+      
+      studentData.setStudentArray(studentArray);
+      studentData.setStudentHashMap(studentHashMap);
     } catch (SQLException e) {
       e.printStackTrace();
     } catch (InvocationTargetException e) {
@@ -139,8 +143,8 @@ class RecsysLoadResponses implements CommandHandler {
     } catch (NoSuchMethodException e) {
       e.printStackTrace();
     }
+
     System.out.println("Loaded Recommender with " + studentArray.length + " students.");
-//    System.out.println(studentHashMap.get(2));
   }
 
 }
@@ -155,7 +159,6 @@ class RecsysRecs implements CommandHandler {
         int studentId = Integer.parseInt(st.nextToken());
         HashMap<Integer, Student> map = studentData.getStudentHashMap();
         IntegratedRecommender recommender = new IntegratedRecommender(studentData.getStudentHashMap());
-        studentData.setRecommender(recommender);
         List<Integer> recIDList = recommender.getTopKRecommendationIDs(map.get(studentId), numRecs);
         for (Integer i : recIDList) {
           System.out.println(i);
@@ -169,54 +172,28 @@ class RecsysGenGroups implements CommandHandler {
 
   RecsysGenGroups() { }
 
-//  // USED FOR DEMONSTRATION PURPOSES
-//  private final Student a = new Student();
-//  private final Student b = new Student();
-//  private final Student c = new Student();
-//  private final Student d = new Student();
-//  private final Student e = new Student();
-//  private final Student f = new Student();
-//  private final Student g = new Student();
-//  private final Student h = new Student();
-//  private final Student i = new Student();
-//  private final Student j = new Student();
-//  private final Student k = new Student();
-//  private final Student l = new Student();
-//
-//  private final List<Student> students = List.of(a, b, c, d, e, f, g, h, i, j, k, l);
-
   public void run(StringTokenizer st, StudentData studentData) {
 
-//    a.setName("A");
-//    b.setName("B");
-//    c.setName("C");
-//    d.setName("D");
-//    e.setName("E");
-//    f.setName("F");
-//    g.setName("G");
-//    h.setName("H");
-//    i.setName("I");
-//    j.setName("J");
-//    k.setName("K");
-//    l.setName("L");
-//
-//    a.setNeighbors(List.of(a, j, i, g, f, b, l, e, d, c, h, k));
-//    b.setNeighbors(List.of(b, g, i, d, k, h, f, j, c, a, l, e));
-//    c.setNeighbors(List.of(c, j, h, k, b, g, l, a, f, d, e, i));
-//    d.setNeighbors(List.of(d, a, c, b, k, j, i, l, f, e, h, g));
-//    e.setNeighbors(List.of(e, a, d, i, f, l, h, j, b, k, c, g));
-//    f.setNeighbors(List.of(f, h, i, l, a, e, k, c, j, b, d, g));
-//    g.setNeighbors(List.of(g, d, c, l, b, k, h, f, e, a, j, i));
-//    h.setNeighbors(List.of(h, d, c, a, i, l, j, b, g, e, k, f));
-//    i.setNeighbors(List.of(i, b, l, j, d, f, e, a, h, k, c, g));
-//    j.setNeighbors(List.of(j, k, d, h, f, c, g, e, b, l, i, a));
-//    k.setNeighbors(List.of(k, f, i, b, e, g, d, j, l, c, a, h));
-//    l.setNeighbors(List.of(l, f, j, a, k, g, h, c, i, e, b, d));
-//
-//    GroupMaker groupMaker = new GroupMaker(Integer.parseInt(st.nextToken()), students);
-//
-//    for (List<Student> group : groupMaker.makeGroups()) {
-//      System.out.println(group.toString());
-//    }
+    IntegratedRecommender recommender = new IntegratedRecommender(studentData.getStudentHashMap());
+
+    int k = Integer.parseInt(st.nextToken());
+
+    HashMap<Integer, List<Integer>> neighbors = new HashMap<>(studentData.getStudentArray().length);
+
+    for (Student student : studentData.getStudentArray()) {
+      neighbors.put(
+          student.getId(),
+          recommender.getTopKRecommendationIDs(
+              student,
+              studentData.getStudentArray().length));
+    }
+
+    GroupMaker groupMaker = new GroupMaker(k, neighbors);
+
+    List<List<Integer>> groups = groupMaker.makeGroups();
+
+    for (List<Integer> group : groups) {
+      System.out.println(group.toString());
+    }
   }
 }

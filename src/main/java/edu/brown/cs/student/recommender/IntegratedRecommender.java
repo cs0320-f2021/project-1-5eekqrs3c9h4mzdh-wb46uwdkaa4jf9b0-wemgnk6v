@@ -24,9 +24,10 @@ public class IntegratedRecommender {
     // Build bloom filter recommender
     this.bloomFilterRecommender = new BloomFilterRecommender(studentMap, 0.0005);
     // get number of KDtree point dimensions
-    Item[] studentArray = (Item[]) studentMap.values().toArray();
+
+    Item[] studentArray = studentMap.values().toArray(new Item[studentMap.size()]);
     int dim = studentArray[0].getKdPoint().length;
-    // Build KD tree
+
     this.kdTree = new KdTree(dim, studentArray);
   }
 

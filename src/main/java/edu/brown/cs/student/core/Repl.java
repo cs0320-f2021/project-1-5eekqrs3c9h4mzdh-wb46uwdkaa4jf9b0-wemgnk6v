@@ -20,6 +20,7 @@ public class Repl {
   /**
    * instantiates a REPL.
    * <p>
+   *
    * @param commands - a hashmap from String -> CommandHandler that holds
    *                 all available commands for the REPL
    */
@@ -46,7 +47,7 @@ public class Repl {
 
         if (st.hasMoreTokens()) { // if the input is not blank, get the first token (the command)
           String command = st.nextToken();
-          
+
           if (this.commands.containsKey(command)) {
             this.commands.get(command).run(st, studentData);
           } else { // command unrecognized
@@ -57,8 +58,8 @@ public class Repl {
         System.out.println("ERROR: Failed parsing input.");
         break;
       } //catch (Exception e) { // some kind of read error, so the repl exits
-        //System.out.println("ERROR: Failed parsing input.");
-        //break;
+      //System.out.println("ERROR: Failed parsing input.");
+      //break;
       //}
     }
     try {

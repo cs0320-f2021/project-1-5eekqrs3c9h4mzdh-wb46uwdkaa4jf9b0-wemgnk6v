@@ -48,16 +48,13 @@ public class BloomFilterRecommender<T extends Item> implements Recommender<T> {
 
   @Override
   public List<T> getTopKRecommendations(T item, int k) {
-    if (this.bloomFilterComparator == null) {
-      return null;
-    }
-
     BloomFilter<String> inputFilter =
         new BloomFilter<>(desiredFalsePositiveRate, this.maxNumValues);
     List<String> inputItemVector = item.getVectorRepresentation();
     for (String s : inputItemVector) {
       inputFilter.add(s);
     }
+    this.setBloomFilterComparator(new XnorSimilarityComparator(inputFilter));
 
     return this.bloomFilters.entrySet()
         .stream()

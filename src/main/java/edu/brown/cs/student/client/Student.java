@@ -125,7 +125,7 @@ public class Student implements Item {
     for (Double skill : this.skills) {
       KdList.add(skill);
     }
-    Double[] KdArray = (Double[]) KdList.toArray();
+    Double[] KdArray = KdList.toArray(new Double[KdList.size()]);
     return KdArray;
   }
 
