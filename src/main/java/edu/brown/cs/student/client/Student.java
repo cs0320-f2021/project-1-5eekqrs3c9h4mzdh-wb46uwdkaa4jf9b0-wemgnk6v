@@ -12,7 +12,7 @@ public class Student implements Item {
   private String grade; // Unused
   private Double experience; // KD
   private String horoscope; // Unused
-  private Set<String> meetTime; // BLOOM
+  private String[] meetTime; // BLOOM
   private String lang; // BLOOM
   private String[] groups; // BLOOM?
   private Boolean preferGroup;
@@ -114,7 +114,7 @@ public class Student implements Item {
 
   @Override
   public int getId() {
-    return 0;
+    return this.id;
   }
 
   @Override
@@ -122,8 +122,8 @@ public class Student implements Item {
     List<Double> KdList = new ArrayList<Double>();
     KdList.add(meetType);
     KdList.add(experience);
-    for (String key : skills.keySet()) {
-      KdList.add(skills.get(key));
+    for (Double skill : this.skills) {
+      KdList.add(skill);
     }
     Double[] KdArray = (Double[]) KdList.toArray();
     return KdArray;
@@ -134,8 +134,29 @@ public class Student implements Item {
     return id;
   }
 
+//  @Override
+//  public String toString() {
+//    return "Student: " + name;
+//  }
+
   @Override
   public String toString() {
-    return "Student: " + name;
+    return "Student{" +
+        "id=" + id +
+        ", name='" + name + '\'' +
+        ", meetType=" + meetType +
+        ", grade='" + grade + '\'' +
+        ", experience=" + experience +
+        ", horoscope='" + horoscope + '\'' +
+        ", meetTime=" + Arrays.toString(meetTime) +
+        ", lang='" + lang + '\'' +
+        ", groups=" + Arrays.toString(groups) +
+        ", preferGroup=" + preferGroup +
+        ", interests=" + interests +
+        ", neg=" + neg +
+        ", pos=" + pos +
+        ", skills=" + skills +
+        ", neighbors=" + neighbors +
+        '}';
   }
 }

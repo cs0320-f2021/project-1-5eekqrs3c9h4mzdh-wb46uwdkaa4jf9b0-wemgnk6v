@@ -33,16 +33,6 @@ public class DatabaseTest {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-//    Map<String, String> query = new HashMap<>();
-//    query.put("id", "2");
-//    List<Skills> selectSkills = db.select(Skills.class, query);
-//    System.out.println(selectSkills.get(0));
-//    List<Interests> selectInterests = db.select(Interests.class, query);
-//    System.out.println(selectInterests.get(0));
-//    List<Positive> selectPositive = db.select(Positive.class, query);
-//    System.out.println(selectPositive.get(0));
-//    List<Negative> selectNegative = db.select(Negative.class, query);
-//    System.out.println(selectNegative.get(0));
     List<Map<String, List<?>>> listORMData = new ArrayList<>();
     for (int id = 1; id <= 61; id++) {
       Map<String, String> queryMap = new HashMap<>();

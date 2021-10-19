@@ -38,7 +38,8 @@ public class IntegrationORMopener {
       Map<String, String> queryMap = new HashMap<>();
       queryMap.put("id", String.valueOf(id));
       List<Skills> selectSkills = db.select(Skills.class, queryMap);
-
+//      System.out.println(this.studentHashMap);
+//      System.out.println(selectSkills.get(0).toList());
       if (selectSkills.size() > 0) {
         currStudent.setSkills(selectSkills.get(0).toList()); // Insert Skills List
       } else currStudent.setSkills(new ArrayList<>());
@@ -48,7 +49,6 @@ public class IntegrationORMopener {
 
       List<Positive> selectPositive = db.select(Positive.class, queryMap);
       List<String> currPositive = new ArrayList<>();
-
 
       List<Negative> selectNegative = db.select(Negative.class, queryMap);
       List<String> currNegative = new ArrayList<>();

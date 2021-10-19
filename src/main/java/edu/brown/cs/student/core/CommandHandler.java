@@ -140,6 +140,7 @@ class RecsysLoadResponses implements CommandHandler {
       e.printStackTrace();
     }
     System.out.println("Loaded Recommender with " + studentArray.length + " students.");
+//    System.out.println(studentHashMap.get(2));
   }
 
 }

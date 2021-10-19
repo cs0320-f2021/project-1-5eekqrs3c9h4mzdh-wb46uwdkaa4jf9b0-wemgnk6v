@@ -55,9 +55,9 @@ public class IntegrationJSONopener {
       student.setLang(jsonStudent.get("preferred_language").getAsString());
       student.setGroups(jsonStudent.get("marginalized_groups").getAsString().split(", "));
       student.setPreferGroup(jsonStudent.get("prefer_group").getAsString().equals("Yes"));
-
+//      System.out.println(student);
       studentHashMap.put(student.getId(), student);
-
+//      System.out.println(student.getId());
       this.data[i] = student;
     }
   }
