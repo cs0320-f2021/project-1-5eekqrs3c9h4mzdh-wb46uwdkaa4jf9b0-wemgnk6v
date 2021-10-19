@@ -10,28 +10,42 @@ To start the server use:
 
 To use this code, simply run the main method to begin the REPL.
 
-When the user types "users online", a new Aggregator is
-Instantiated. From there, the "loadData" method is called, which
-is the main method that runs the aggregator. This method calls the
-"ping" method, which pings an endpoint a specified k number of 
-times. After each ping, the json retrieved from the endpoint is
-parsed and identified. If it's the correct type of data, it is
-merged with our current database. If not, it is ignored. A hashmap
-from user id's -> users is maintained in order to quickly and
-accurately determine if a user is already in the database. The
-JSONopener parses the json string returned from the endpoint as
-a jsonArray using .fromJson(), which keeps the data type general. 
-Although functionality for retrieving review/rent data does not 
-seem necessary for this project, this design would allow for that
-functionality later on. The JSONopener also identifies the data
-as user, review, rent, or error (which doesn't return anything).
+## Commands
+###recsys_load responses
+**Description**: loads all student data from API & ORM into a hashmap of Student objects. 
 
-When the user types just "users", then the JSONopener is called
-to open a local json file. To parse the file, a new reader is
-instantiated and then passed into .fromJson(), which automatically
-stores the objects in an array. From there, the JsonObjects are
-converted into User objects and stored in a hashmap. The local
-userArray and userHashmap fields of JSONopener were created to
-allow the program to access these datastructures without
-instantiating an Aggregator (which deals with the data obtained
-online).
+**Returns**: "Loaded Recommender with k students"
+
+###recsys_rec <num_recs> <student_id>
+
+**Description**: Generates team recommendations for a student where student is determined by their student_id and the team size determined by num_recs.
+
+**Returns**: A list of IDs corresponding to the recommendation, in order of preference to the input student.
+
+<matched_student_id_1>
+<matched_student_id_2>
+...
+<matched_student_id_k>
+
+###recsys_gen_groups <team_size>
+
+**Description**: Generates recommended teams of size _team_size_, and leftover students are placed in a random team.
+
+**Returns**: A list of IDs representing each student in each team, in order of preference.
+
+[group_1_student_1, group_1_student_2, … group_1_student_k]
+[group_2_student_1, group_2_student_2, … group_2_student_k]
+...
+[group_n_student_1, group_n_student_2, … group_n_student_k]
+
+## Methodology
+###Data and Preferences
+Data was taken from two sources: the integration API and integration SQLite.
+
+- **IntegrationJSONOpener** handles calling the API and then creating Student objects with the API half of the data.
+- **IntegrationORMOpener** handles querying the SQLite DB and then adding the second half of the data to those previously created Student objects.
+- This happens in **RecsysLoadResponses**, which implements **CommandHandler**
+
+We decided to handle preferences with mostly matching similar traits, and sometimes matching inverse traits.
+
+****
