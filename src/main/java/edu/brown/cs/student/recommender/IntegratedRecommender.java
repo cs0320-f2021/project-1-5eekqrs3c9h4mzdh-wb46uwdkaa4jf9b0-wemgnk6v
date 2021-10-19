@@ -17,8 +17,10 @@ public class IntegratedRecommender {
   public IntegratedRecommender(HashMap<Integer, Student> studentMap) {
     // Convert student IDs to KD tree coordinates and Bloom filter coordinates
     this.bloomFilterRecommender = new BloomFilterRecommender(studentMap, 0.0005);
-    // get number of KDtree dimensions
-    this.kdTree = new KdTree(5, (Item[]) studentMap.values().toArray());
+    // get number of KDtree point dimensions
+    Item[] studentArray = studentMap.values().toArray(new Item[studentMap.size()]);
+    int dim = studentArray[0].getKdPoint().length;
+    this.kdTree = new KdTree(dim, studentArray);
   }
 
   public List<Integer> getTopKRecommendationIDs(Item targetItem, int k) {

@@ -5,7 +5,7 @@ import java.util.BitSet;
 import java.util.Comparator;
 import java.util.Map;
 
-public class XnorSimilarityComparator implements Comparator<Map.Entry<String, BloomFilter<String>>>,
+public class XnorSimilarityComparator implements Comparator<Map.Entry<Integer, BloomFilter<String>>>,
     Serializable {
   private BloomFilter<String> target;
 
@@ -14,8 +14,8 @@ public class XnorSimilarityComparator implements Comparator<Map.Entry<String, Bl
   }
 
   @Override
-  public int compare(Map.Entry<String, BloomFilter<String>> o1,
-                     Map.Entry<String, BloomFilter<String>> o2) {
+  public int compare(Map.Entry<Integer, BloomFilter<String>> o1,
+                     Map.Entry<Integer, BloomFilter<String>> o2) {
     BitSet o1BitSet = o1.getValue().getBitSet();
     BitSet o2BitSet = o2.getValue().getBitSet();
 

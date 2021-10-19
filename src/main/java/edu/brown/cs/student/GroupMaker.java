@@ -1,9 +1,6 @@
 package edu.brown.cs.student;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class GroupMaker {
 
@@ -36,6 +33,21 @@ public class GroupMaker {
         }
         groups.add(thisGroup);
       }
+    }
+    List<Integer> lastGroup = groups.get(groups.size() - 1);
+    if (lastGroup.size() < teamSize) {
+      Random random = new Random();
+      for (Integer student : lastGroup) {
+        boolean foundGroup = false;
+        while (!foundGroup) {
+          List<Integer> nextGroup = groups.get(random.nextInt(groups.size() - 1));
+          if (nextGroup.size() == teamSize) {
+            nextGroup.add(student);
+            foundGroup = true;
+          }
+        }
+      }
+      groups.remove(lastGroup);
     }
     return groups;
   }

@@ -12,16 +12,16 @@ public class Student implements Item {
   private String grade; // Unused
   private Double experience; // KD
   private String horoscope; // Unused
-  private Set<String> meetTime; // BLOOM
+  private String[] meetTime; // BLOOM
   private String lang; // BLOOM
   private String[] groups; // BLOOM?
   private Boolean preferGroup;
 
   // from ORM
-  private List<String> interests; // BLOOM
-  private List<String> neg; // BLOOM
-  private List<String> pos; // BLOOM
-  private HashMap<String, Double> skills; // KD
+  private List<String> interests = Collections.emptyList(); // BLOOM
+  private List<String> neg = Collections.emptyList(); // BLOOM
+  private List<String> pos = Collections.emptyList(); // BLOOM
+  private HashMap<String, Double> skills = new HashMap<>(); // KD
 
   private List<Student> neighbors;
 
@@ -114,7 +114,7 @@ public class Student implements Item {
 
   @Override
   public int getId() {
-    return 0;
+    return this.id;
   }
 
   @Override
@@ -125,7 +125,7 @@ public class Student implements Item {
     for (String key : skills.keySet()) {
       KdList.add(skills.get(key));
     }
-    Double[] KdArray = (Double[]) KdList.toArray();
+    Double[] KdArray = KdList.toArray(new Double[KdList.size()]);
     return KdArray;
   }
 
@@ -136,6 +136,6 @@ public class Student implements Item {
 
   @Override
   public String toString() {
-    return "Student: " + name;
+    return "Student: " + id;
   }
 }
